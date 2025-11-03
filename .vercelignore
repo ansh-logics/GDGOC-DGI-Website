@@ -1,0 +1,10 @@
+node_modules
+.next
+.git
+*.md
+DESIGN.md
+UPDATES.md
+THEME_TOGGLER_UPDATE.md
+THEME_FIX.md
+UI_UPDATES.md
+
