@@ -16,7 +16,7 @@ export default function EventDetailPage() {
 
   useEffect(() => {
     // Combine all events and find the one matching the slug
-    const allEvents = [...eventsData.upcoming, ...eventsData.past];
+    const allEvents = [...eventsData.upcoming, ...eventsData.past] as Event[];
     const foundEvent = allEvents.find(e => e.slug === slug);
     
     setEvent(foundEvent || null);

@@ -4,9 +4,12 @@ import EventsPreview from "./components/EventsPreview";
 import Team from "./components/Team";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import { Event } from "@/types/event";
 import eventsData from "@/data/events.json";
 
 export default function Home() {
+  const upcomingEvents = eventsData.upcoming as Event[];
+  
   return (
     <>
       <Navbar />
@@ -18,7 +21,7 @@ export default function Home() {
           <About />
         </div>
         <div className="snap-start will-change-transform">
-          <EventsPreview upcomingEvents={eventsData.upcoming} />
+          <EventsPreview upcomingEvents={upcomingEvents} />
         </div>
         <div className="snap-start will-change-transform">
           <Team />
