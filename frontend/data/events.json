@@ -10,8 +10,8 @@
       "end": "2025-11-15T17:00:00Z",
       "location": "Online",
       "venue": "Google Meet",
-      "bannerUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=600&fit=crop",
-      "thumbnailUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop",
+      "bannerUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&h=600&q=80",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=400&h=250&q=80",
       "commudleUrl": "https://www.commudle.com/communities/gdg-on-campus/events/intro-cloud-computing",
       "tags": ["Cloud", "GCP", "Beginner", "Workshop"],
       "host": {
@@ -77,8 +77,8 @@
       "end": "2025-11-22T17:00:00Z",
       "location": "Tech Hub, Building A, Room 301",
       "venue": "DGI Campus",
-      "bannerUrl": "https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=1200&h=600&fit=crop",
-      "thumbnailUrl": "https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=400&h=250&fit=crop",
+      "bannerUrl": "https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?auto=format&fit=crop&w=1200&h=600&q=80",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?auto=format&fit=crop&w=400&h=250&q=80",
       "commudleUrl": "https://www.commudle.com/communities/gdg-on-campus/events/android-bootcamp",
       "tags": ["Android", "Kotlin", "Mobile", "Bootcamp"],
       "host": {
@@ -136,8 +136,8 @@
       "end": "2024-10-10T18:00:00Z",
       "location": "Online",
       "venue": "Google Meet",
-      "bannerUrl": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&h=600&fit=crop",
-      "thumbnailUrl": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=250&fit=crop",
+      "bannerUrl": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=1200&h=600&q=80",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=400&h=250&q=80",
       "commudleUrl": "https://www.commudle.com/communities/gdg-on-campus/events/web-dev-workshop",
       "tags": ["Web", "React", "Next.js", "Workshop"],
       "host": {
@@ -202,8 +202,8 @@
       "end": "2024-09-30T23:59:59Z",
       "location": "Hybrid (Online + Weekly In-person)",
       "venue": "DGI Campus & Online",
-      "bannerUrl": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=1200&h=600&fit=crop",
-      "thumbnailUrl": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=250&fit=crop",
+      "bannerUrl": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&h=600&q=80",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=400&h=250&q=80",
       "commudleUrl": "https://www.commudle.com/communities/gdg-on-campus/events/ml-study-jam",
       "tags": ["Machine Learning", "AI", "Study Jam", "Certification"],
       "host": {
