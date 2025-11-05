@@ -5,8 +5,7 @@ export default function Footer() {
     community: [
       { name: "About", href: "#about" },
       { name: "Events", href: "#events" },
-      { name: "Team", href: "#team" },
-      { name: "Partners", href: "#partners" }
+      { name: "Team", href: "#team" }
     ],
     resources: [
       { name: "Code of Conduct", href: "#" },
@@ -23,40 +22,44 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 border-t border-gray-200/50 dark:border-gray-800/50">
+    <footer className="relative bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800">
       {/* Subtle noise texture */}
       <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05] pointer-events-none bg-noise"></div>
-      <div className="max-w-7xl mx-auto px-6 py-16">
+      
+      {/* Decorative gradient at top */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent"></div>
+      
+      <div className="max-w-7xl mx-auto px-6 py-16 relative z-10">
         {/* Main Footer Content */}
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex gap-1">
-                <div className="w-3 h-3 rounded-full bg-[#4285f4]"></div>
-                <div className="w-3 h-3 rounded-full bg-[#ea4335]"></div>
-                <div className="w-3 h-3 rounded-full bg-[#fbbc04]"></div>
-                <div className="w-3 h-3 rounded-full bg-[#34a853]"></div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="flex gap-1.5">
+                <div className="w-4 h-4 rounded-full bg-[#4285f4] shadow-sm"></div>
+                <div className="w-4 h-4 rounded-full bg-[#ea4335] shadow-sm"></div>
+                <div className="w-4 h-4 rounded-full bg-[#fbbc04] shadow-sm"></div>
+                <div className="w-4 h-4 rounded-full bg-[#34a853] shadow-sm"></div>
               </div>
-              <span className="text-lg font-semibold text-gray-900 dark:text-white">GDG on Campus</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">GDG on Campus</span>
             </div>
-            <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed max-w-md">
+            <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed max-w-md text-base">
               A student community powered by Google Developers, building skills and connections through technology.
             </p>
             
             {/* Newsletter Signup */}
-            <div className="mb-6">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Stay updated
+            <div className="mb-8">
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-900 dark:text-white mb-3">
+                Stay updated with our newsletter
               </label>
               <div className="flex gap-2">
                 <input
                   type="email"
                   id="email"
                   placeholder="your@email.com"
-                  className="flex-1 px-4 py-2.5 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-full border-soft focus:outline-none focus:ring-2 focus:ring-[#4285f4] text-sm"
+                  className="flex-1 px-4 py-3 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white rounded-full border border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4285f4] focus:border-transparent text-sm shadow-sm"
                 />
-                <button className="px-6 py-2.5 bg-[#4285f4] hover:bg-[#3367d6] text-white font-medium rounded-full transition-colors text-sm shadow-soft hover:shadow-medium">
+                <button className="px-6 py-3 bg-gradient-to-r from-[#4285f4] to-[#3367d6] hover:from-[#3367d6] hover:to-[#4285f4] text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 text-sm shadow-md hover:shadow-lg">
                   Subscribe
                 </button>
               </div>
@@ -66,7 +69,7 @@ export default function Footer() {
             <div className="flex gap-3">
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white dark:bg-gray-900 border-soft flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-soft"
+                className="w-11 h-11 rounded-full bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-all hover:scale-110 shadow-sm hover:shadow-md"
                 aria-label="Twitter"
               >
                 <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24">
@@ -75,7 +78,7 @@ export default function Footer() {
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white dark:bg-gray-900 border-soft flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-soft"
+                className="w-11 h-11 rounded-full bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-all hover:scale-110 shadow-sm hover:shadow-md"
                 aria-label="LinkedIn"
               >
                 <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24">
@@ -84,7 +87,7 @@ export default function Footer() {
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white dark:bg-gray-900 border-soft flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-soft"
+                className="w-11 h-11 rounded-full bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-all hover:scale-110 shadow-sm hover:shadow-md"
                 aria-label="GitHub"
               >
                 <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24">
@@ -93,7 +96,7 @@ export default function Footer() {
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white dark:bg-gray-900 border-soft flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-soft"
+                className="w-11 h-11 rounded-full bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-all hover:scale-110 shadow-sm hover:shadow-md"
                 aria-label="Discord"
               >
                 <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 24 24">
@@ -105,7 +108,7 @@ export default function Footer() {
 
           {/* Links Columns */}
           <div>
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Community</h3>
+            <h3 className="font-bold text-gray-900 dark:text-white mb-4 text-sm uppercase tracking-wider">Community</h3>
             <ul className="space-y-3">
               {footerLinks.community.map((link, index) => (
                 <li key={index}>
@@ -121,7 +124,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Resources</h3>
+            <h3 className="font-bold text-gray-900 dark:text-white mb-4 text-sm uppercase tracking-wider">Resources</h3>
             <ul className="space-y-3">
               {footerLinks.resources.map((link, index) => (
                 <li key={index}>
@@ -137,7 +140,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Connect</h3>
+            <h3 className="font-bold text-gray-900 dark:text-white mb-4 text-sm uppercase tracking-wider">Connect</h3>
             <ul className="space-y-3">
               {footerLinks.connect.map((link, index) => (
                 <li key={index}>
@@ -154,18 +157,20 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-gray-200/50 dark:border-gray-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            © {currentYear} GDG on Campus. All rights reserved.
-          </p>
+        <div className="pt-8 mt-8 border-t border-gray-200 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              © {currentYear} GDG on Campus DGI. All rights reserved.
+            </p>
+          </div>
           <div className="flex gap-6 text-sm">
-            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors">
+            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors font-medium">
               Privacy Policy
             </a>
-            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors">
+            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors font-medium">
               Terms of Service
             </a>
-            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors">
+            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors font-medium">
               Contact
             </a>
           </div>

@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function Team() {
   const teamMembers = [
     {
@@ -59,60 +63,83 @@ export default function Team() {
   ];
 
   return (
-    <section id="team" className="min-h-screen flex items-center py-24 px-6 bg-white dark:bg-gray-950 relative">
+    <section id="team" className="min-h-screen flex items-center py-24 px-6 bg-gradient-to-b from-white via-green-50/30 to-white dark:from-gray-950 dark:via-green-950/10 dark:to-gray-950 relative">
       {/* Subtle noise texture */}
       <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05] pointer-events-none bg-noise"></div>
-      <div className="max-w-7xl mx-auto">
+      
+      {/* Decorative elements */}
+      <div className="absolute top-1/4 right-10 w-80 h-80 bg-green-400/10 dark:bg-green-600/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-10 w-80 h-80 bg-blue-400/10 dark:bg-blue-600/10 rounded-full blur-3xl"></div>
+      
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-block px-4 py-1.5 mb-6 bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400 text-sm font-medium rounded-full border border-green-200 dark:border-green-800">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          viewport={{ once: true, amount: 0.5 }}
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400 text-sm font-medium rounded-full border border-green-200 dark:border-green-800 shadow-sm">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
             Our Team
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            Meet the organizers
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900 dark:text-white leading-tight tracking-tight" style={{ fontFamily: 'var(--font-outfit)' }}>
+            Meet the{' '}
+            <span className="bg-gradient-to-r from-[#34A853] via-[#4285F4] to-[#EA4335] bg-clip-text text-transparent">
+              organizers
+            </span>
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Dedicated students passionate about empowering the developer community
           </p>
-        </div>
+        </motion.div>
 
         {/* Team Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {teamMembers.map((member, index) => (
-            <div
+            <motion.div
               key={index}
-              className="group relative bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 rounded-3xl p-6 border-soft shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+              viewport={{ once: true, margin: "-30px", amount: 0.3 }}
+              className="group relative bg-white dark:bg-gray-900 rounded-3xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
             >
               {/* Avatar */}
               <div className="relative mb-4">
                 <div
-                  className="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-medium"
+                  className="w-24 h-24 mx-auto rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg group-hover:scale-110 transition-transform duration-300"
                   style={{ backgroundColor: member.color }}
                 >
                   {member.avatar}
                 </div>
                 {/* Status Indicator */}
-                <div className="absolute bottom-0 right-1/2 translate-x-8 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-800"></div>
+                <div className="absolute bottom-1 right-1/2 translate-x-10 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-900 shadow-md">
+                  <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-75"></div>
+                </div>
               </div>
 
               {/* Member Info */}
               <div className="text-center">
-                <h3 className="text-lg font-semibold mb-1 text-gray-900 dark:text-white">
+                <h3 className="text-lg font-bold mb-1 text-gray-900 dark:text-white">
                   {member.name}
                 </h3>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">
+                <p className="text-sm font-semibold mb-3" style={{ color: member.color }}>
                   {member.role}
                 </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-4">
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
                   {member.bio}
                 </p>
               </div>
 
               {/* Social Links */}
-              <div className="flex justify-center gap-3 pt-4 border-t border-gray-200/50 dark:border-gray-700/50">
+              <div className="flex justify-center gap-2 pt-4 border-t border-gray-200 dark:border-gray-800">
                 <a
                   href="#"
-                  className="w-8 h-8 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors border-soft"
+                  className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-all hover:scale-110 shadow-sm"
                   aria-label="LinkedIn"
                 >
                   <svg className="w-4 h-4 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
@@ -121,7 +148,7 @@ export default function Team() {
                 </a>
                 <a
                   href="#"
-                  className="w-8 h-8 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors border-soft"
+                  className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-all hover:scale-110 shadow-sm"
                   aria-label="GitHub"
                 >
                   <svg className="w-4 h-4 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
@@ -130,7 +157,7 @@ export default function Team() {
                 </a>
                 <a
                   href="#"
-                  className="w-8 h-8 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors border-soft"
+                  className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-all hover:scale-110 shadow-sm"
                   aria-label="Twitter"
                 >
                   <svg className="w-4 h-4 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
@@ -138,23 +165,8 @@ export default function Team() {
                   </svg>
                 </a>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-
-        {/* Join Team CTA */}
-        <div className="mt-16 text-center">
-          <div className="inline-block p-8 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20 rounded-3xl border-soft shadow-soft">
-            <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white">
-              Want to join our team?
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md mx-auto">
-              We're always looking for passionate students to help organize and grow our community
-            </p>
-            <button className="px-8 py-4 bg-[#4285f4] hover:bg-[#3367d6] text-white font-medium rounded-full shadow-medium hover:shadow-large transition-all duration-300 hover:scale-105">
-              Apply to Join
-            </button>
-          </div>
         </div>
       </div>
     </section>

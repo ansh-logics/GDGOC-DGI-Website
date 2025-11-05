@@ -1,0 +1,262 @@
+{
+  "upcoming": [
+    {
+      "id": "evt-001",
+      "title": "Introduction to Cloud Computing with Google Cloud",
+      "slug": "intro-cloud-computing-gcp",
+      "summary": "Learn the fundamentals of cloud computing and get hands-on experience with Google Cloud Platform. Perfect for beginners!",
+      "description": "Join us for an exciting introduction to cloud computing using Google Cloud Platform. This workshop will cover the basics of cloud architecture, key GCP services, and hands-on labs to help you build your first cloud application. Whether you're new to cloud or looking to expand your skills, this event is perfect for you.\n\nWhat you'll learn:\n- Cloud computing fundamentals\n- Google Cloud Platform overview\n- Compute Engine, Cloud Storage, and Cloud Functions\n- Best practices for cloud architecture\n- Hands-on project: Deploy your first app on GCP\n\nBring your laptop and be ready to code!",
+      "start": "2025-11-15T14:00:00Z",
+      "end": "2025-11-15T17:00:00Z",
+      "location": "Online",
+      "venue": "Google Meet",
+      "bannerUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=600&fit=crop",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop",
+      "commudleUrl": "https://www.commudle.com/communities/gdg-on-campus/events/intro-cloud-computing",
+      "tags": ["Cloud", "GCP", "Beginner", "Workshop"],
+      "host": {
+        "name": "Alex Johnson",
+        "avatar": "https://ui-avatars.com/api/?name=Alex+Johnson&background=4285f4&color=fff&size=200",
+        "role": "Lead Organizer",
+        "email": "alex@gdg.dev",
+        "linkedin": "https://linkedin.com/in/alexjohnson"
+      },
+      "speakers": [
+        {
+          "name": "Sarah Chen",
+          "avatar": "https://ui-avatars.com/api/?name=Sarah+Chen&background=ea4335&color=fff&size=200",
+          "title": "Cloud Solutions Architect",
+          "bio": "Sarah is a Google Cloud certified architect with 5+ years of experience helping companies migrate to the cloud.",
+          "social": {
+            "linkedin": "https://linkedin.com/in/sarachen",
+            "twitter": "https://twitter.com/sarachen"
+          }
+        }
+      ],
+      "agenda": [
+        {
+          "time": "14:00 - 14:15",
+          "title": "Welcome & Introduction",
+          "description": "Event overview and networking"
+        },
+        {
+          "time": "14:15 - 15:00",
+          "title": "Cloud Computing Fundamentals",
+          "description": "Understanding cloud architecture and services",
+          "speaker": "Sarah Chen"
+        },
+        {
+          "time": "15:00 - 15:15",
+          "title": "Break",
+          "description": "Quick networking break"
+        },
+        {
+          "time": "15:15 - 16:30",
+          "title": "Hands-on Lab: Deploy on GCP",
+          "description": "Build and deploy your first application",
+          "speaker": "Sarah Chen"
+        },
+        {
+          "time": "16:30 - 17:00",
+          "title": "Q&A and Wrap-up",
+          "description": "Questions, next steps, and closing remarks"
+        }
+      ],
+      "status": "upcoming",
+      "capacity": 100,
+      "registered": 67,
+      "year": 2025
+    },
+    {
+      "id": "evt-002",
+      "title": "Android Development Bootcamp",
+      "slug": "android-dev-bootcamp",
+      "summary": "A comprehensive 3-day bootcamp covering modern Android development with Kotlin and Jetpack Compose.",
+      "description": "Dive deep into Android development in this intensive 3-day bootcamp. Learn to build modern Android applications using Kotlin and Jetpack Compose, Google's recommended toolkit for building native UI.\n\nThis bootcamp covers:\n- Kotlin programming fundamentals\n- Jetpack Compose UI framework\n- Material Design 3 implementation\n- State management and architecture\n- Firebase integration\n- Publishing to Google Play Store\n\nPrerequisites: Basic programming knowledge (any language)",
+      "start": "2025-11-20T09:00:00Z",
+      "end": "2025-11-22T17:00:00Z",
+      "location": "Tech Hub, Building A, Room 301",
+      "venue": "DGI Campus",
+      "bannerUrl": "https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=1200&h=600&fit=crop",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=400&h=250&fit=crop",
+      "commudleUrl": "https://www.commudle.com/communities/gdg-on-campus/events/android-bootcamp",
+      "tags": ["Android", "Kotlin", "Mobile", "Bootcamp"],
+      "host": {
+        "name": "Priya Sharma",
+        "avatar": "https://ui-avatars.com/api/?name=Priya+Sharma&background=34a853&color=fff&size=200",
+        "role": "Tech Lead",
+        "email": "priya@gdg.dev",
+        "linkedin": "https://linkedin.com/in/priyasharma",
+        "github": "https://github.com/priyasharma"
+      },
+      "speakers": [
+        {
+          "name": "Raj Patel",
+          "avatar": "https://ui-avatars.com/api/?name=Raj+Patel&background=fbbc04&color=111&size=200",
+          "title": "Senior Android Developer",
+          "bio": "Raj has built 20+ Android apps and is a Google Developer Expert in Android.",
+          "social": {
+            "linkedin": "https://linkedin.com/in/rajpatel",
+            "twitter": "https://twitter.com/rajpatel",
+            "github": "https://github.com/rajpatel"
+          }
+        }
+      ],
+      "agenda": [
+        {
+          "time": "Day 1: 09:00 - 17:00",
+          "title": "Kotlin Fundamentals & Android Basics",
+          "description": "Learn Kotlin syntax and Android project structure"
+        },
+        {
+          "time": "Day 2: 09:00 - 17:00",
+          "title": "Jetpack Compose & UI Development",
+          "description": "Build beautiful UIs with Compose"
+        },
+        {
+          "time": "Day 3: 09:00 - 17:00",
+          "title": "Advanced Topics & Project",
+          "description": "Firebase, architecture, and build your own app"
+        }
+      ],
+      "status": "upcoming",
+      "capacity": 50,
+      "registered": 42,
+      "year": 2025
+    }
+  ],
+  "past": [
+    {
+      "id": "evt-003",
+      "title": "Web Development Workshop: React & Next.js",
+      "slug": "web-dev-react-nextjs",
+      "summary": "Build modern web applications with React and Next.js. Learn component-based architecture and server-side rendering.",
+      "description": "This workshop covered the fundamentals of modern web development using React and Next.js. Participants learned to build fast, SEO-friendly web applications using the latest web technologies.\n\nTopics covered:\n- React fundamentals and hooks\n- Next.js app router and routing\n- Server-side rendering and static generation\n- API routes and data fetching\n- Deployment on Vercel\n\nOver 80 students participated and built their first Next.js applications!",
+      "start": "2024-10-10T14:00:00Z",
+      "end": "2024-10-10T18:00:00Z",
+      "location": "Online",
+      "venue": "Google Meet",
+      "bannerUrl": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&h=600&fit=crop",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=250&fit=crop",
+      "commudleUrl": "https://www.commudle.com/communities/gdg-on-campus/events/web-dev-workshop",
+      "tags": ["Web", "React", "Next.js", "Workshop"],
+      "host": {
+        "name": "Marcus Chen",
+        "avatar": "https://ui-avatars.com/api/?name=Marcus+Chen&background=4285f4&color=fff&size=200",
+        "role": "Community Manager",
+        "email": "marcus@gdg.dev"
+      },
+      "speakers": [
+        {
+          "name": "Emma Williams",
+          "avatar": "https://ui-avatars.com/api/?name=Emma+Williams&background=ea4335&color=fff&size=200",
+          "title": "Full Stack Developer",
+          "bio": "Emma specializes in React and Next.js development with experience at top tech companies.",
+          "social": {
+            "linkedin": "https://linkedin.com/in/emmawilliams",
+            "github": "https://github.com/emmawilliams"
+          }
+        }
+      ],
+      "status": "past",
+      "capacity": 100,
+      "registered": 87,
+      "year": 2024,
+      "blogPostUrl": "https://gdg.dev/blog/web-dev-workshop-recap",
+      "lessonsLearned": "The workshop was a huge success! We learned that hands-on coding sessions with real-time debugging are incredibly valuable. Next time, we'll allocate more time for Q&A and add breakout rooms for personalized help.",
+      "resources": [
+        {
+          "type": "slides",
+          "title": "Workshop Slides",
+          "url": "https://slides.gdg.dev/web-dev-workshop",
+          "description": "Complete slide deck covering React and Next.js fundamentals"
+        },
+        {
+          "type": "recording",
+          "title": "Full Workshop Recording",
+          "url": "https://youtube.com/watch?v=example",
+          "description": "4-hour workshop recording available on YouTube"
+        },
+        {
+          "type": "repo",
+          "title": "Workshop Code Repository",
+          "url": "https://github.com/gdg-campus/web-dev-workshop",
+          "license": "MIT",
+          "description": "Starter code and completed examples"
+        },
+        {
+          "type": "blog",
+          "title": "Workshop Recap Blog Post",
+          "url": "https://gdg.dev/blog/web-dev-workshop-recap",
+          "description": "Detailed recap with photos and key takeaways"
+        }
+      ]
+    },
+    {
+      "id": "evt-004",
+      "title": "Machine Learning Study Jam",
+      "slug": "ml-study-jam-2024",
+      "summary": "30-day intensive program to learn machine learning fundamentals, complete Google Cloud ML courses, and earn certifications.",
+      "description": "Our most successful study jam to date! Participants completed a structured 30-day program covering machine learning fundamentals, TensorFlow, and Google Cloud AI services.\n\nProgram highlights:\n- Daily learning modules and assignments\n- Weekly live Q&A sessions\n- Hands-on projects with real datasets\n- Google Cloud Skills Boost completion\n- Final project presentations\n\n45 students completed the program and earned their certificates!",
+      "start": "2024-09-01T00:00:00Z",
+      "end": "2024-09-30T23:59:59Z",
+      "location": "Hybrid (Online + Weekly In-person)",
+      "venue": "DGI Campus & Online",
+      "bannerUrl": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=1200&h=600&fit=crop",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=250&fit=crop",
+      "commudleUrl": "https://www.commudle.com/communities/gdg-on-campus/events/ml-study-jam",
+      "tags": ["Machine Learning", "AI", "Study Jam", "Certification"],
+      "host": {
+        "name": "Priya Sharma",
+        "avatar": "https://ui-avatars.com/api/?name=Priya+Sharma&background=34a853&color=fff&size=200",
+        "role": "Tech Lead",
+        "email": "priya@gdg.dev"
+      },
+      "speakers": [
+        {
+          "name": "Dr. Aisha Khan",
+          "avatar": "https://ui-avatars.com/api/?name=Aisha+Khan&background=fbbc04&color=111&size=200",
+          "title": "ML Research Scientist",
+          "bio": "Dr. Khan has published 15+ papers on deep learning and teaches ML at the university.",
+          "social": {
+            "linkedin": "https://linkedin.com/in/aishakhan"
+          }
+        }
+      ],
+      "status": "past",
+      "capacity": 60,
+      "registered": 58,
+      "year": 2024,
+      "blogPostUrl": "https://gdg.dev/blog/ml-study-jam-success",
+      "lessonsLearned": "The hybrid format worked exceptionally well! Weekly in-person sessions helped maintain engagement. Key success factor: building a supportive community through Discord where participants helped each other. We'll definitely repeat this format for future study jams.",
+      "resources": [
+        {
+          "type": "docs",
+          "title": "30-Day Learning Plan",
+          "url": "https://docs.gdg.dev/ml-study-jam-curriculum",
+          "description": "Complete day-by-day curriculum and resources"
+        },
+        {
+          "type": "recording",
+          "title": "Weekly Session Recordings",
+          "url": "https://youtube.com/playlist?list=example",
+          "description": "All 4 weekly Q&A sessions recorded"
+        },
+        {
+          "type": "repo",
+          "title": "Final Projects Repository",
+          "url": "https://github.com/gdg-campus/ml-study-jam-projects",
+          "license": "Apache-2.0",
+          "description": "Showcase of all participant final projects"
+        },
+        {
+          "type": "blog",
+          "title": "Success Stories & Testimonials",
+          "url": "https://gdg.dev/blog/ml-study-jam-success",
+          "description": "Participant experiences and achievements"
+        }
+      ]
+    }
+  ]
+}
+

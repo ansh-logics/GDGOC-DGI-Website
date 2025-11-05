@@ -3,6 +3,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Clean hand-drawn animation keyframes */
+@keyframes fadeInRotate {
+  0% {
+    opacity: 0;
+    transform: rotate(0deg) translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-1deg) translateY(0);
+  }
+}
+
 :root {
   /* Light Mode - Soft Neubrutalism Palette */
   --background: oklch(0.989 0 0);
@@ -71,6 +83,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk);
+  --font-heading: var(--font-outfit);
+  --font-tech: var(--font-sora);
 
   /* Custom Color Palette */
   --color-google-blue: var(--google-blue);
@@ -154,12 +169,65 @@
   --border-medium: rgba(255, 255, 255, 0.12);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth theme transitions */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Exclude transitions for animations and transforms */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow !important;
+}
+
+/* Performance optimization: use GPU acceleration for transforms */
+.animate-float,
+.group:hover > *,
+[class*="hover:scale"],
+[class*="hover:translate"] {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize rendering for scroll performance */
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+/* Smooth scroll for main container */
+main {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Optimize images and gradients */
+img {
+  content-visibility: auto;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Utility Classes for Neubrutalism */
@@ -207,9 +275,36 @@ p {
   letter-spacing: -0.01em;
 }
 
-/* Smooth Transitions */
-* {
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+/* Font Family Utilities */
+.font-display {
+  font-family: var(--font-space-grotesk), sans-serif;
+}
+
+.font-heading {
+  font-family: var(--font-outfit), sans-serif;
+}
+
+.font-tech {
+  font-family: var(--font-sora), sans-serif;
+}
+
+.font-body {
+  font-family: var(--font-inter), sans-serif;
+}
+
+/* Optimize animations for performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* Noisy Gradient Background */
@@ -253,6 +348,116 @@ p {
   background-repeat: repeat;
 }
 
+/* Neumorphism Utilities */
+.neomorph {
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  box-shadow: 
+    8px 8px 16px rgba(163, 177, 198, 0.15),
+    -8px -8px 16px rgba(255, 255, 255, 0.7);
+}
+
+.dark .neomorph {
+  background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+  box-shadow: 
+    8px 8px 16px rgba(0, 0, 0, 0.4),
+    -8px -8px 16px rgba(40, 40, 40, 0.1);
+}
+
+.neomorph-inset {
+  background: linear-gradient(145deg, #f0f0f0, #ffffff);
+  box-shadow: 
+    inset 6px 6px 12px rgba(163, 177, 198, 0.2),
+    inset -6px -6px 12px rgba(255, 255, 255, 0.8);
+}
+
+.dark .neomorph-inset {
+  background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
+  box-shadow: 
+    inset 6px 6px 12px rgba(0, 0, 0, 0.5),
+    inset -6px -6px 12px rgba(40, 40, 40, 0.2);
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+.dark .glass {
+  background: rgba(26, 26, 26, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.dark .glass-strong {
+  background: rgba(26, 26, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Animated Gradient Micro-interactions */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradient-rotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-animate {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.gradient-animate-fast {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+.gradient-rotate {
+  background-size: 400% 400%;
+  animation: gradient-rotate 15s ease infinite;
+}
+
+/* Hover Gradient Effects */
+.hover-gradient-shift {
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  transition: background-position 0.5s ease;
+}
+
+.hover-gradient-shift:hover {
+  background-position: 100% 50%;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {
@@ -267,6 +472,32 @@ p {
 
 .animate-fade-in {
   animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(66, 133, 244, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(66, 133, 244, 0.4);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
 /* Custom Scrollbar Styling */
