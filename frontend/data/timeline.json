@@ -1,0 +1,61 @@
+{
+  "milestones": [
+    {
+      "id": "milestone-1",
+      "title": "GDG Chapter Founded",
+      "subtitle": "The Beginning",
+      "date": "January 2023",
+      "description": "GDG on Campus DGI was officially established with 15 founding members passionate about technology and community building."
+    },
+    {
+      "id": "milestone-2",
+      "title": "First Tech Talk",
+      "subtitle": "Introduction to Cloud Computing",
+      "date": "March 2023",
+      "description": "Our inaugural event attracted 50+ students and featured a hands-on workshop on Google Cloud Platform fundamentals."
+    },
+    {
+      "id": "milestone-3",
+      "title": "Android Study Jam",
+      "subtitle": "Mobile Development",
+      "date": "June 2023",
+      "description": "Successfully completed a 4-week Android development program with 30 participants earning certifications."
+    },
+    {
+      "id": "milestone-4",
+      "title": "DevFest 2023",
+      "subtitle": "Our Biggest Event",
+      "date": "October 2023",
+      "description": "Hosted our first DevFest with 200+ attendees, 8 speakers, and workshops covering AI, Web, and Mobile development."
+    },
+    {
+      "id": "milestone-5",
+      "title": "Solution Challenge",
+      "subtitle": "Global Competition",
+      "date": "February 2024",
+      "description": "Three teams from our chapter qualified for the Google Solution Challenge, with one team reaching the top 100 globally."
+    },
+    {
+      "id": "milestone-6",
+      "title": "Community Milestone",
+      "subtitle": "500+ Members",
+      "date": "June 2024",
+      "description": "Reached 500 active community members and became one of the most active GDG chapters in the region."
+    },
+    {
+      "id": "milestone-7",
+      "title": "AI/ML Bootcamp",
+      "subtitle": "Machine Learning",
+      "date": "September 2024",
+      "description": "Intensive 2-week bootcamp on AI and Machine Learning with TensorFlow, attended by 80+ students."
+    },
+    {
+      "id": "milestone-8",
+      "title": "Looking Ahead",
+      "subtitle": "Future Plans",
+      "date": "2025",
+      "description": "Expanding our programs with more workshops, hackathons, and partnerships with industry leaders."
+    }
+  ]
+}
+
