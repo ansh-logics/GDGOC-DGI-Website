@@ -25,7 +25,7 @@ export default function Home() {
         <About />
         <EventsPreview upcomingEvents={upcomingEvents} />
         <Team />
-        <TimelineSection />
+        {/* <TimelineSection /> */}
         <Footer />
       </main>
     </>

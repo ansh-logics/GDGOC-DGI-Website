@@ -26,85 +26,32 @@ export default function EventsPreview({ upcomingEvents }: EventsPreviewProps) {
       <div className="absolute bottom-1/4 left-10 w-80 h-80 bg-yellow-400/10 dark:bg-yellow-600/10 rounded-full blur-3xl"></div>
 
       <div className="max-w-7xl mx-auto relative z-10 w-full">
-        {/* Section Header */}
+        {/* Soft launch message */}
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
+          className="flex flex-col items-center justify-center min-h-[300px] text-center max-w-3xl mx-auto"
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          viewport={{ once: true, amount: 0.4 }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 text-sm font-medium rounded-full border border-red-200 dark:border-red-800 shadow-sm">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            Upcoming Events
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-gray-900 dark:text-white leading-tight tracking-tight" style={{ fontFamily: 'var(--font-outfit)' }}>
-            Learn, connect, and{' '}
-            <span className="bg-gradient-to-r from-[#FBBC04] via-[#EA4335] to-[#4285F4] bg-clip-text text-transparent">
-              build together
-            </span>
-          </h2>
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Join our workshops, study jams, and community events to level up your tech skills
+          <motion.div
+            initial={{ scale: 0.9 }}
+            whileInView={{ scale: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="mb-8"
+          >
+            <span className="text-6xl md:text-7xl lg:text-8xl">🚀</span>
+          </motion.div>
+          <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Something awesome is brewing!
+          </h3>
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+            We're cooking up some epic GDG events and workshops. Stay tuned—our lineup drops soon! ✨
+          </p>
+          <p className="text-base md:text-lg text-gray-500 dark:text-gray-500 italic">
+            In the meantime, grab some coffee ☕ and keep this tab open.
           </p>
         </motion.div>
-
-        {/* Events Grid */}
-        {previewEvents.length > 0 ? (
-          <>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {previewEvents.map((event, index) => (
-                <EventCardClassy key={event.id} event={event} index={index} />
-              ))}
-            </div>
-
-            {/* See All Events Button */}
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <Link
-                href="/events"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#4285f4] to-[#3367d6] text-white font-semibold text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                See All Events
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-            </motion.div>
-          </>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            viewport={{ once: true }}
-            className="text-center py-16"
-          >
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full mb-4">
-              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No upcoming events yet</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">Check back soon for new events!</p>
-            <Link
-              href="/events"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-full font-semibold text-gray-900 dark:text-white hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-200 hover:scale-105"
-            >
-              View Past Events
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </motion.div>
-        )}
       </div>
     </section>
   );

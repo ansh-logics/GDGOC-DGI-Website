@@ -304,8 +304,8 @@ export default function BubbleMenu({
           <span
             className="menu-line block mx-auto rounded-[2px]"
             style={{
-              width: 26,
-              height: 2,
+              width: '26px',
+              height: '2px',
               background: menuContentColor,
               transform: isMenuOpen ? 'translateY(4px) rotate(45deg)' : 'none'
             }}
@@ -314,8 +314,8 @@ export default function BubbleMenu({
             className="menu-line short block mx-auto rounded-[2px]"
             style={{
               marginTop: '6px',
-              width: 26,
-              height: 2,
+              width: '26px',
+              height: '2px',
               background: menuContentColor,
               transform: isMenuOpen ? 'translateY(-4px) rotate(-45deg)' : 'none'
             }}
