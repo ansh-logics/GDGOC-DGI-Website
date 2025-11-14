@@ -1,3 +1,5 @@
+import axios, { Axios } from "axios"
+
 interface Main {
     id: string,
     title: string,
@@ -89,6 +91,8 @@ interface Agenda {
 async function getCSV() {
     let API_KEY = "AIzaSyASsRizaQYB6yq-mfM-Zrmi_UR_A1g7Gg0";
     let SHEET_ID = "1Mt-yK3YxH528ShEx6YI4i78U66L5izZ14LqAZPCBsec"
+    let DRIVE_CLIENT_ID = "900253435833-b4umhac4mckq79ac8n5if6kldhe3bm84.apps.googleusercontent.com"
+    let DRIVE_API_KEY = "AIzaSyAEpak69nuv4rWYNGaxBm1YSooqj3Qal5w"
     let tabs = ['Events', 'Speakers', 'Hosts', 'Agenda']
     let eventTemplate: Event = {
         id: "",
@@ -172,13 +176,13 @@ async function getCSV() {
 
     //now parsing all the data event wise.
     const mainEvents: Main[] = [];
-    
+
     events.forEach((eve: Event) => {
         const eventId = eve.id;
         const speakersForEvent = speakersList.filter(s => s.EventId === eventId);
         const hostsForEvent = hostsList.filter(h => h.EventId === eventId);
         const agendaForEvent = agendaList.filter(a => a.EventId === eventId);
-        
+
         // Map event to Main interface structure
         const mainEvent: Main = {
             id: eve.id,
@@ -224,10 +228,10 @@ async function getCSV() {
                 description: agenda.description
             })) as any
         };
-        
+
         mainEvents.push(mainEvent);
     });
-    
+
     console.log("Mapped events:", mainEvents);
     return mainEvents;
 }
