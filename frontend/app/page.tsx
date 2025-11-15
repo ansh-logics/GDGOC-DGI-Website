@@ -7,13 +7,14 @@ import TimelineSection from "./components/TimelineSection";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import { Event } from "@/types/event";
-import getCSV from "@/database";
+import checkCache from "@/database";
 import { useEffect } from "react";
 import eventsData from "@/data/events.json";
 export default function Home() {
   const upcomingEvents = eventsData.upcoming as Event[];
   useEffect(()=>{
-    getCSV();
+    let data = checkCache();
+    console.log(data);
   },[]) 
 
   

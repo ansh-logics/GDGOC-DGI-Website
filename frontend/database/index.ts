@@ -1,4 +1,4 @@
-
+import axios from "axios";
 interface Event {
     id: string;
     title: string;
@@ -86,10 +86,14 @@ interface Main {
         description: string;
     }[];
 }
+interface cacheData{
+    lastModified:string,
+    data:Main[];
+}
 
 type ListMap<T> = Map<string, T[]>;
 
-export async function getCSV(): Promise<Main[]> {
+async function getCSV(): Promise<Main[]> {
     let API_KEY = "AIzaSyASsRizaQYB6yq-mfM-Zrmi_UR_A1g7Gg0";
     let SHEET_ID = "1Mt-yK3YxH528ShEx6YI4i78U66L5izZ14LqAZPCBsec"
     let DRIVE_CLIENT_ID = "900253435833-b4umhac4mckq79ac8n5if6kldhe3bm84.apps.googleusercontent.com"
@@ -131,13 +135,13 @@ export async function getCSV(): Promise<Main[]> {
         return data.values ?? [];
     }
 
-    //parallel execution musch faster 
+    //parallel execution much faster 
     const [eventsTable, speakersTable, hostsTable, agendaTable] = await Promise.all(
         tabs.map(t => fetchTab(t))
     );
 
 
-    //convert into array of oobject 
+    //convert into array of object 
     function parse<T>(rows: string[][], template: any): T[] {
         const keys = Object.keys(template);
         return rows.map(row => {
@@ -224,11 +228,82 @@ export async function getCSV(): Promise<Main[]> {
             description: a.description
         }))
     }));
-    console.log(mainEvents)
 
     return mainEvents;
 }
+async function getLastModified(){
+    let SHEET_ID = "1Mt-yK3YxH528ShEx6YI4i78U66L5izZ14LqAZPCBsec"
+    let DRIVE_API_KEY = "AIzaSyAEpak69nuv4rWYNGaxBm1YSooqj3Qal5w"
+    
+    try{
+        const res = await axios.get(`https://www.googleapis.com/drive/v3/files/${SHEET_ID}?fields=modifiedTime&key=${DRIVE_API_KEY}`);
+        return res.data['modifiedTime'];
+    }catch(error){
+        console.log("Something Went wrong");
+        return null;
+    }
+}
+//storing the data in the cache 
+async function storeInCache (){
+    let events: Main[] = await getCSV();
+    let modifiedTime = await getLastModified();
+    let cacheData:cacheData = {lastModified:modifiedTime || "", data:events};
+    const cache = await caches.open('my-cache');
+    const req = new Request('/event-data');
+    const res = new Response(JSON.stringify(cacheData),{
+        headers:{"Content-Type":"application/json"}
+    });
+    await cache.put(req, res);
+    return true;
+
+}
+async function checkLastModified(){
+    const cache = await caches.open("my-cache");
+    const match = await cache.match('/event-data');
+    if (!match) return null;
+    const data = await match.json();
+    const lastModified = await getLastModified();
+    if (lastModified && data['lastModified'] === lastModified){
+        return true;
+    }else{
+        return false;
+    }
+    
+}
+export async function checkCache(){
+    try{
+
+        const cache = await caches.open("my-cache");
+        const match = await cache.match('/event-data');
+        const data = match? await match.json():null;
+    
+        if(data === null){
+            await storeInCache();
+    
+            const newMatch = await cache.match('/event-data');
+            const newData = await newMatch!.json();
+            return newData.data;
+    
+        }else{
+            let check= await checkLastModified();
+            if (check){
+               return data.data;
+            }
+            else{
+                await storeInCache();
+                const updatedMatch = await cache.match('/event-data');
+                const updatedData = await updatedMatch!.json();
+                return updatedData.data;
+            }
+        }
+    }catch(error){
+        console.error('Cache error: ', error);
+        return await getCSV();
+    }
+
+}
+
  
 
 
-export default getCSV;
+export default checkCache;
