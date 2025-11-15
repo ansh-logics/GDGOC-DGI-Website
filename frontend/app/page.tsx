@@ -13,8 +13,11 @@ import eventsData from "@/data/events.json";
 export default function Home() {
   const upcomingEvents = eventsData.upcoming as Event[];
   useEffect(()=>{
-    let data = checkCache();
+    async function s(){
+      let data = await checkCache();
     console.log(data);
+    }
+    s();
   },[]) 
 
   
