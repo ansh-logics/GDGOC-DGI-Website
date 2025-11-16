@@ -12,6 +12,7 @@ export default async function getAllEvents(){
         
         const data = await match.json();
         const raw: Main[] = data.data;
+        console.log(raw)
         
         const allEvents: AllEvents[] = raw.map(eve => ({
             id: eve.id,
@@ -19,7 +20,8 @@ export default async function getAllEvents(){
             slug: eve.slug,
             desc: eve.description,
             location: eve.location,
-            time: eve.start,
+            start: eve.start,
+            end:eve.end,
             date: `${eve.date}-${eve.month}-${eve.year}`,
             thumbnailurl: eve.thumbnailUrl,
         }));

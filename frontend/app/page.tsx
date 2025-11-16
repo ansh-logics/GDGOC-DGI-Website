@@ -8,18 +8,20 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import { AllEvents } from "@/types/event";
 import checkCache from "@/database";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import getAllEvents from "./api/controllers/getAllEvents";
 import getSpecificEvent from "./api/controllers/getSpecificEvent";
 
 export default function Home() {
-  let events:AllEvents[] = []
+  const[event,setEvents]=useState<AllEvents[]>([]);
   
   useEffect(() => {
     const fetchData = async () => {
       try {
         await checkCache();
-        events = await getAllEvents();
+         const all = await getAllEvents();
+        console.log(all)
+        setEvents(all)
         await getSpecificEvent("ai-ml-workshop");
         
 
@@ -36,7 +38,7 @@ export default function Home() {
       <main className="overflow-y-auto scroll-smooth">
         <Hero />
         <About />
-        <EventsPreview upcomingEvents={events} />
+        <EventsPreview upcomingEvents={event} />
         <Team />
         {/* <TimelineSection /> */}
         <Footer />

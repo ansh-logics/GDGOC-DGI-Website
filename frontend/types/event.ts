@@ -140,7 +140,8 @@ export interface AllEvents{
     slug:string,
     desc: string,
     location: string,
-    time: string,
+    start: string,
+    end:string
     date: string,
     thumbnailurl: string,
 }
