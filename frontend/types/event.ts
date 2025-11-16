@@ -144,5 +144,6 @@ export interface AllEvents{
     end:string
     date: string,
     thumbnailurl: string,
+    commudleUrl: string,
 }
 

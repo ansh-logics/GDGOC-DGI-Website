@@ -50,7 +50,7 @@ export default function EventsPage() {
       end: `${y}-${m}-${d}T${e.end}`,
       location: e.location,
       thumbnailUrl: e.thumbnailurl,
-      commudleUrl: "#",
+      commudleUrl: e.commudleUrl || "#",
       status,
       tags: [e.slug],
       slug: e.slug,

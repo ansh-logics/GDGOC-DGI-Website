@@ -24,6 +24,7 @@ export default async function getAllEvents(){
             end:eve.end,
             date: `${eve.date}-${eve.month}-${eve.year}`,
             thumbnailurl: eve.thumbnailUrl,
+            commudleUrl: eve.commudleUrl || "#",
         }));
 
         return allEvents;

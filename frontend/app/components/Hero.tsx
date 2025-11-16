@@ -125,7 +125,10 @@ export default function Hero() {
 
           {/* Enhanced CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-            <button className="group relative px-8 py-4 bg-gradient-to-r from-[#4285f4] to-[#3367d6] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 min-w-[200px] overflow-hidden">
+            <a 
+              href="#events"
+              className="group relative px-8 py-4 bg-gradient-to-r from-[#4285f4] to-[#3367d6] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 min-w-[200px] overflow-hidden text-center"
+            >
               <div className="absolute inset-0 bg-gradient-to-r from-[#3367d6] to-[#4285f4] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <span className="relative flex items-center justify-center gap-2">
                 Join Community
@@ -133,16 +136,19 @@ export default function Hero() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </span>
-            </button>
+            </a>
             
-            <button className="group px-8 py-4 bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-full font-semibold text-gray-900 dark:text-white hover:border-gray-300 dark:hover:border-gray-600 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 min-w-[200px]">
+            <a 
+              href="/events"
+              className="group px-8 py-4 bg-white dark:bg-gray-900 border-2 border-gray-200 dark:border-gray-700 rounded-full font-semibold text-gray-900 dark:text-white hover:border-gray-300 dark:hover:border-gray-600 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 min-w-[200px] text-center"
+            >
               <span className="flex items-center justify-center gap-2">
                 Explore Events
                 <svg className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </span>
-            </button>
+            </a>
           </div>
 
           {/* Stats Section */}

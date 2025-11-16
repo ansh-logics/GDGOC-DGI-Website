@@ -5,9 +5,14 @@ import { motion } from "framer-motion";
 import EventCard from "./EventCard";
 import { Event } from "@/types/event";
 
+interface EventWithYearAndTags extends Event {
+  year: number;
+  tags: string[];
+}
+
 interface EventsSectionProps {
-  upcomingEvents: Event[];
-  pastEvents: Event[];
+  upcomingEvents: EventWithYearAndTags[];
+  pastEvents: EventWithYearAndTags[];
 }
 
 export default function EventsSection({ upcomingEvents, pastEvents }: EventsSectionProps) {

@@ -4,11 +4,11 @@ export default function Footer() {
   const footerLinks = {
     community: [
       { name: "About", href: "#about" },
-      { name: "Events", href: "#events" },
+      { name: "Events", href: "/events" },
       { name: "Team", href: "#team" }
     ],
     resources: [
-      { name: "Code of Conduct", href: "#" },
+      { name: "Code of Conduct", href: "https://developers.google.com/community-guidelines" },
       { name: "FAQ", href: "#" },
       { name: "Blog", href: "#" },
       { name: "Newsletter", href: "#" }
@@ -68,7 +68,9 @@ export default function Footer() {
             {/* Social Links */}
             <div className="flex gap-3">
               <a
-                href="#"
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-all hover:scale-110 shadow-sm hover:shadow-md"
                 aria-label="Twitter"
               >
@@ -77,7 +79,9 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-all hover:scale-110 shadow-sm hover:shadow-md"
                 aria-label="LinkedIn"
               >
@@ -86,7 +90,9 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-all hover:scale-110 shadow-sm hover:shadow-md"
                 aria-label="GitHub"
               >
@@ -95,7 +101,9 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://discord.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-all hover:scale-110 shadow-sm hover:shadow-md"
                 aria-label="Discord"
               >
@@ -164,13 +172,13 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex gap-6 text-sm">
-            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors font-medium">
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors font-medium">
               Privacy Policy
             </a>
-            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors font-medium">
+            <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors font-medium">
               Terms of Service
             </a>
-            <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors font-medium">
+            <a href="mailto:contact@gdgcampus.dev" className="text-gray-600 dark:text-gray-400 hover:text-[#4285f4] dark:hover:text-[#4285f4] transition-colors font-medium">
               Contact
             </a>
           </div>

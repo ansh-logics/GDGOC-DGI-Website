@@ -1,12 +1,34 @@
 "use client";
 
-import { Event } from "@/types/event";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { format } from "date-fns";
 
+interface FormattedEvent {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  description?: string;
+  start: string; // ISO date string
+  end: string; // ISO date string
+  location: string;
+  thumbnailUrl: string;
+  bannerUrl?: string;
+  commudleUrl: string;
+  status: string;
+  tags: string[];
+  tag?: string;
+  startTime?: string;
+  endTime?: string;
+  Date?: string;
+  venu?: string;
+  year?: number;
+  month?: number;
+}
+
 interface EventCardClassyProps {
-  event: Event;
+  event: FormattedEvent;
   index?: number;
 }
 

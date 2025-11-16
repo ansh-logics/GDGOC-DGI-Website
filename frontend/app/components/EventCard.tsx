@@ -11,9 +11,37 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event, index = 0 }: EventCardProps) {
-  const eventDate = new Date(event.start);
-  const formattedDate = format(eventDate, "MMM dd, yyyy");
-  const formattedTime = format(eventDate, "h:mm a");
+  // Parse the Date string and startTime to create a proper date
+  let eventDateTime: Date;
+  try {
+    const dateStr = event.Date || "";
+    const timeStr = event.startTime || "";
+    
+    // Handle different date formats: YYYY-MM-DD or DD/MM/YYYY
+    if (dateStr.includes("/")) {
+      const [day, month, year] = dateStr.split("/");
+      eventDateTime = new Date(`${year}-${month}-${day}T${timeStr}`);
+    } else if (dateStr.includes("-")) {
+      const parts = dateStr.split("-");
+      // If first part is 4 digits, it's YYYY-MM-DD format
+      if (parts[0].length === 4) {
+        eventDateTime = new Date(`${dateStr}T${timeStr}`);
+      } else {
+        // DD-MM-YYYY format
+        const [day, month, year] = parts;
+        eventDateTime = new Date(`${year}-${month}-${day}T${timeStr}`);
+      }
+    } else {
+      // Fallback to current date
+      eventDateTime = new Date();
+    }
+  } catch (error) {
+    // Fallback to current date if parsing fails
+    eventDateTime = new Date();
+  }
+  
+  const formattedDate = format(eventDateTime, "MMM dd, yyyy");
+  const formattedTime = format(eventDateTime, "h:mm a");
 
   const handleRSVP = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -84,33 +112,21 @@ export default function EventCard({ event, index = 0 }: EventCardProps) {
         </p>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {event.tags.slice(0, 3).map((tag, idx) => (
-            <span
-              key={idx}
-              className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-md"
-            >
-              {tag}
+        {event.tag && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            <span className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-md">
+              {event.tag}
             </span>
-          ))}
-          {event.tags.length > 3 && (
-            <span className="px-2 py-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-              +{event.tags.length - 3} more
-            </span>
-          )}
-        </div>
+          </div>
+        )}
 
-        {/* Host Info */}
-        <div className="flex items-center gap-2 mb-4 pb-4 border-b border-gray-200 dark:border-gray-800">
-          <img
-            src={event.host.avatar}
-            alt={event.host.name}
-            className="w-8 h-8 rounded-full"
-            loading="lazy"
-          />
-          <div>
-            <p className="text-sm font-medium text-gray-900 dark:text-white">{event.host.name}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{event.host.role}</p>
+        {/* Location/Time Info */}
+        <div className="mb-4 pb-4 border-b border-gray-200 dark:border-gray-800">
+          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{formattedTime}</span>
           </div>
         </div>
 
