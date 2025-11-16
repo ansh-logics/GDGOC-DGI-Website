@@ -61,7 +61,9 @@ interface Main {
     commudleUrl: string;
     tags: string;
     status: string;
-
+    date:Number,
+    month:Number,
+    year:Number,
     host: {
         name: string;
         avatar: string;
@@ -176,9 +178,22 @@ async function getCSV(): Promise<Main[]> {
     group(hostsList, hostsByEvent);
     group(agendaList, agendaByEvent);
 
+function normalizeDate(dateStr: string): string {
+    if (dateStr.includes("-")) {
+        return dateStr;
+    }
+    if (dateStr.includes("/")) {
+        const [dd, mm, yyyy] = dateStr.split("/");
+        return `${yyyy}-${mm}-${dd}`;
+    }
+    return dateStr;
+}
 
     
-    const mainEvents: Main[] = events.map(eve => ({
+    const mainEvents: Main[] = events.map(eve => {
+    const isoDate = normalizeDate(eve.Date);
+
+    return {
         id: eve.id,
         title: eve.title,
         slug: eve.slug,
@@ -191,8 +206,13 @@ async function getCSV(): Promise<Main[]> {
         bannerUrl: eve.bannerUrl,
         thumbnailUrl: eve.thumbnailUrl,
         commudleUrl: eve.commudleUrl,
+
         tags: eve.tag,
         status: eve.status,
+
+        date:Number (isoDate.split('-')[2]),     
+        month:Number(isoDate.split('-')[1]),           
+        year: Number(isoDate.split('-')[0]), 
 
         host:
             (hostsByEvent.get(eve.id) ?? []).length > 0
@@ -227,7 +247,9 @@ async function getCSV(): Promise<Main[]> {
             title: a.title,
             description: a.description
         }))
-    }));
+    };
+});
+
 
     return mainEvents;
 }
