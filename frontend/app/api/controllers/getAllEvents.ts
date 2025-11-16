@@ -5,6 +5,7 @@ export default async function getAllEvents(){
         throw new Error("No event data found in cache");
     }else{
         let data = await match.json();
+        console.log(data);
         console.log(data['id']);
         return data;
     }
