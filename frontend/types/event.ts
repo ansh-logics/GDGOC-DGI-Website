@@ -46,62 +46,102 @@ export interface Event {
   slug: string;
   summary: string;
   description: string;
-  start: string; // ISO 8601 format
-  end: string; // ISO 8601 format
-  location: string; // "Online" or physical location
-  venue?: string;
+  startTime: string;
+  endTime: string;
+  Date: string;
+  location: string;
+  venu: string;
   bannerUrl: string;
   thumbnailUrl: string;
   commudleUrl: string;
-  tags: string[];
-  host: EventHost;
-  speakers?: EventSpeaker[];
-  agenda?: EventAgendaItem[];
-  resources?: EventResource[];
-  status: 'upcoming' | 'past' | 'ongoing';
-  capacity?: number;
-  registered?: number;
-  blogPostUrl?: string;
-  lessonsLearned?: string;
+  tag: string;
+  status: string;
+}
+
+export interface Speakers {
+  SpeakerId: string;
+  EventId: string;
+  Name: string;
+  Avatar: string;
+  Title: string;
+  Bio: string;
+  LinkedIn: string;
+  X: string;
+}
+
+export interface Hosts {
+  HostId: string;
+  EventId: string;
+  Name: string;
+  Avatar: string;
+  Title: string;
+  Bio: string;
+  LinkedIn: string;
+  X: string;
+}
+
+export interface Agenda {
+  EventId: string;
+  time: string;
+  title: string;
+  description: string;
+}
+
+export interface Main {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  description: string;
+  start: string;
+  end: string;
+  location: string;
+  venue: string;
+  bannerUrl: string;
+  thumbnailUrl: string;
+  commudleUrl: string;
+  tags: string;
+  status: string;
+  date: number;
+  month: number;
   year: number;
+  host: {
+      name: string;
+      avatar: string;
+      role: string;
+      email: string;
+      linkedin: string;
+      x: string;
+  };
+  speakers: {
+      name: string;
+      avatar: string;
+      title: string;
+      bio: string;
+      linkedin: string;
+      x: string;
+  }[];
+  agenda: {
+      time: string;
+      title: string;
+      description: string;
+  }[];
 }
 
-export interface EventsData {
-  upcoming: Event[];
-  past: Event[];
+export interface CacheData {
+  lastModified: string;
+  data: Main[];
 }
 
-/**
- * JSON Schema Example
- */
-export const eventSchema = {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "required": ["id", "title", "slug", "summary", "start", "end", "location", "bannerUrl", "thumbnailUrl", "commudleUrl", "host", "status"],
-  "properties": {
-    "id": { "type": "string" },
-    "title": { "type": "string" },
-    "slug": { "type": "string" },
-    "summary": { "type": "string", "maxLength": 200 },
-    "description": { "type": "string" },
-    "start": { "type": "string", "format": "date-time" },
-    "end": { "type": "string", "format": "date-time" },
-    "location": { "type": "string" },
-    "venue": { "type": "string" },
-    "bannerUrl": { "type": "string", "format": "uri" },
-    "thumbnailUrl": { "type": "string", "format": "uri" },
-    "commudleUrl": { "type": "string", "format": "uri" },
-    "tags": { "type": "array", "items": { "type": "string" } },
-    "host": { "type": "object" },
-    "speakers": { "type": "array" },
-    "agenda": { "type": "array" },
-    "resources": { "type": "array" },
-    "status": { "type": "string", "enum": ["upcoming", "past", "ongoing"] },
-    "capacity": { "type": "number" },
-    "registered": { "type": "number" },
-    "blogPostUrl": { "type": "string", "format": "uri" },
-    "lessonsLearned": { "type": "string" },
-    "year": { "type": "number" }
-  }
-};
+export type ListMap<T> = Map<string, T[]>;
+export interface AllEvents{
+    id: string,
+    name: string,
+    slug:string,
+    desc: string,
+    location: string,
+    time: string,
+    date: string,
+    thumbnailurl: string,
+}
 

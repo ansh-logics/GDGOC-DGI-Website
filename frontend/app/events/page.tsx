@@ -3,8 +3,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import EventCardClassy from "@/app/components/EventCardClassy";
-import { Event } from "@/types/event";
-import eventsData from "@/data/events.json";
+import { AllEvents, Event, Main } from "@/types/event";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 
@@ -12,11 +11,13 @@ export default function EventsPage() {
   const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
   const [selectedTag, setSelectedTag] = useState<string | 'all'>('all');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
+  const [upcomingEvents, setUpcomingEvents] = useState<AllEvents[]>([]);
+  const [pastEvents, setPasteEvents] = useState<AllEvents[]>([]);
 
-  const upcomingEvents = eventsData.upcoming as Event[];
-  const pastEvents = eventsData.past as Event[];
+
 
   // Get unique years and tags from past events
+  
   const years = useMemo(() => {
     const uniqueYears = [...new Set(pastEvents.map(event => event.year))];
     return uniqueYears.sort((a, b) => b - a);
@@ -25,7 +26,7 @@ export default function EventsPage() {
   const allTags = useMemo(() => {
     const tags = new Set<string>();
     [...upcomingEvents, ...pastEvents].forEach(event => {
-      event.tags.forEach(tag => tags.add(tag));
+      tags.add(event.tags);
     });
     return Array.from(tags).sort();
   }, [upcomingEvents, pastEvents]);

@@ -2,11 +2,11 @@
 
 import { motion } from "framer-motion";
 import EventCardClassy from "./EventCardClassy";
-import { Event } from "@/types/event";
+import { AllEvents } from "@/types/event";
 import Link from "next/link";
 
 interface EventsPreviewProps {
-  upcomingEvents: Event[];
+  upcomingEvents: AllEvents[];
 }
 
 export default function EventsPreview({ upcomingEvents }: EventsPreviewProps) {

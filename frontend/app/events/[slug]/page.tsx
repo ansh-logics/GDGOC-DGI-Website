@@ -5,22 +5,23 @@ import { useEffect, useState } from "react";
 import EventDetailContent from "@/app/components/EventDetailContent";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import { Event } from "@/types/event";
-import eventsData from "@/data/events.json";
+import getSpecificEvent from "@/app/api/controllers/getSpecificEvent";
+import { Main } from "@/types/event";
 
 export default function EventDetailPage() {
   const params = useParams();
   const slug = params?.slug as string;
-  const [event, setEvent] = useState<Event | null>(null);
+  const [event, setEvent] = useState<Main | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Combine all events and find the one matching the slug
-    const allEvents = [...eventsData.upcoming, ...eventsData.past] as Event[];
-    const foundEvent = allEvents.find(e => e.slug === slug);
-    
-    setEvent(foundEvent || null);
-    setLoading(false);
+    async function run(){  
+      const foundEvent = await getSpecificEvent(slug);
+      setEvent(foundEvent || null);
+      setLoading(false);
+    }
+    run();
   }, [slug]);
 
   if (loading) {

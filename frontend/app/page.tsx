@@ -6,31 +6,37 @@ import Team from "./components/Team";
 import TimelineSection from "./components/TimelineSection";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
-import { Event } from "@/types/event";
+import { AllEvents } from "@/types/event";
 import checkCache from "@/database";
 import { useEffect } from "react";
-import eventsData from "@/data/events.json";
 import getAllEvents from "./api/controllers/getAllEvents";
-import axios from "axios";
-export default function Home() {
-  const upcomingEvents = eventsData.upcoming as Event[];
-  useEffect(()=>{
-    let fetchData = async () =>{
-      let data =  await checkCache();
-      console.log(data); 
-      await getAllEvents();
-    }
-    fetchData();
-  },[]) 
+import getSpecificEvent from "./api/controllers/getSpecificEvent";
 
+export default function Home() {
+  let events:AllEvents[] = []
   
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await checkCache();
+        events = await getAllEvents();
+        await getSpecificEvent("ai-ml-workshop");
+        
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       <Navbar />
       <main className="overflow-y-auto scroll-smooth">
         <Hero />
         <About />
-        <EventsPreview upcomingEvents={upcomingEvents} />
+        <EventsPreview upcomingEvents={events} />
         <Team />
         {/* <TimelineSection /> */}
         <Footer />
