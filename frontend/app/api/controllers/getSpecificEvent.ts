@@ -9,7 +9,8 @@ export default async function getSpecificEvent(slug:string){
     }else{
         const raw = await match.json();
         const allData = raw.data;
-        const data = allData.find((e: any) => e.slug === slug);
+        console.log(allData)
+        const data = allData.find((e: any) => e.slug.toLowerCase() === slug.toLowerCase());
         console.log(data);
         return data;
     }
