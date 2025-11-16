@@ -10,11 +10,17 @@ import { Event } from "@/types/event";
 import checkCache from "@/database";
 import { useEffect } from "react";
 import eventsData from "@/data/events.json";
+import getAllEvents from "./api/controllers/getAllEvents";
+import axios from "axios";
 export default function Home() {
   const upcomingEvents = eventsData.upcoming as Event[];
   useEffect(()=>{
-    let data = checkCache();
-    console.log(data);
+    let fetchData = async () =>{
+      let data =  await checkCache();
+      console.log(data); 
+      await getAllEvents();
+    }
+    fetchData();
   },[]) 
 
   

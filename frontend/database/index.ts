@@ -263,6 +263,7 @@ async function checkLastModified(){
     if (!match) return null;
     const data = await match.json();
     const lastModified = await getLastModified();
+    console.log(lastModified, data['lastModified']);
     if (lastModified && data['lastModified'] === lastModified){
         return true;
     }else{
@@ -287,6 +288,7 @@ export async function checkCache(){
         }else{
             let check= await checkLastModified();
             if (check){
+                console.log("data is in cache", data.data);
                return data.data;
             }
             else{
