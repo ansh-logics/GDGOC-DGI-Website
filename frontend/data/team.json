@@ -5,14 +5,14 @@
       "members": [
         {
           "name": "Swati Sharma",
-          "role": "Android Developer",
+          "role": "Android Lead",
           "bio": "A passionate Android developer who loves building intuitive mobile experiences. She's constantly exploring new ways to make apps smarter and smoother.",
           "linkedin": "https://www.linkedin.com/in/dev-swati?utm_source=share_via&utm_content=profile&utm_medium=member_android",
           "image": "/SWATI2.jpg"
         },
         {
           "name": "Prince Pandit",
-          "role": "Android Developer",
+          "role": "Android Co-Lead",
           "bio": "Enthusiastic about mobile innovation, Prince brings creativity and precision to Android development. Always eager to learn and experiment with modern tech.",
           "linkedin": "https://www.linkedin.com/in/prince-pandit-7aa423336?utm_source=share_via&utm_content=profile&utm_medium=member_android",
           "image": "/prince-img.jpg"
@@ -24,29 +24,17 @@
       "members": [
         {
           "name": "Vaibhav Baranwal",
-          "role": "ML Engineer",
+          "role": "ML Lead",
           "bio": "Driven by curiosity, Vaibhav enjoys turning data into meaningful insights through machine learning and AI. He thrives on solving complex analytical challenges.",
           "linkedin": "https://www.linkedin.com/in/vaibhav-baranwal-a39793293?utm_source=share_via&utm_content=profile&utm_medium=member_android",
           "image": null
         },
         {
           "name": "Varun Bahuguna",
-          "role": "ML Engineer",
+          "role": "ML Co-Lead",
           "bio": "A data enthusiast who loves experimenting with algorithms. Varun blends logic and innovation to create impactful ML models.",
           "linkedin": "https://www.linkedin.com/in/varun-bahuguna-894567297?utm_source=share_via&utm_content=profile&utm_medium=member_android",
           "image": "/VarunBahuguna.jpeg"
-        }
-      ]
-    },
-    {
-      "name": "Cloud Team",
-      "members": [
-        {
-          "name": "Pratik",
-          "role": "Cloud Engineer",
-          "bio": "Cloud tech sparks his curiosity. Pratik focuses on scalable solutions, with a keen interest in DevOps and infrastructure optimization.",
-          "linkedin": "https://www.linkedin.com/in/pratik-kumar-a3a9bb332?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-          "image": "/pratik.jpg"
         }
       ]
     },
@@ -55,7 +43,7 @@
       "members": [
         {
           "name": "Arihant Jain",
-          "role": "Graphics Designer",
+          "role": "Graphics Lead",
           "bio": "A creative mind who turns ideas into stunning visuals. Arihant believes good design isn't just seen-it's felt.",
           "linkedin": "https://www.linkedin.com/in/arihant-jain-372556317?utm_source=share_via&utm_content=profile&utm_medium=member_android",
           "image": "/arihant.jpg"
@@ -67,14 +55,14 @@
       "members": [
         {
           "name": "Cheshta Singh",
-          "role": "Event Manager",
+          "role": "Event Management Lead",
           "bio": "A natural organizer who ensures every event runs seamlessly. Her enthusiasm and precision bring energy to every GDGOC initiative.",
           "linkedin": "https://www.linkedin.com/in/cheshta-singh?utm_source=share_via&utm_content=profile&utm_medium=member_android",
           "image": "/Cheshta Singh.jpg"
         },
         {
           "name": "Harshita Dargan",
-          "role": "Event Manager",
+          "role": "Event Management Co-Lead",
           "bio": "A confident speaker and strategic planner who leads with vision and empathy. Harshita makes every event impactful and engaging.",
           "linkedin": "https://www.linkedin.com/in/harshita-dargan-52a5072a5?utm_source=share_via&utm_content=profile&utm_medium=member_android",
           "image": "/harshita dargan formal pic.jpg"
@@ -86,7 +74,7 @@
       "members": [
         {
           "name": "Sourav Upreti",
-          "role": "Web Developer",
+          "role": "Web Lead",
           "bio": "A web enthusiast passionate about crafting responsive and user-friendly interfaces. Sourav loves bringing digital ideas to life through clean code and creativity.",
           "linkedin": "https://www.linkedin.com/in/sourav-upreti-22b8b6283?utm_source=share_via&utm_content=profile&utm_medium=member_android",
           "image": null
@@ -102,4 +90,3 @@
     "image": "/Ansh Bhatt.jpeg"
   }
 }
-

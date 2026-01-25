@@ -35,8 +35,8 @@ function MemberCard({ member }: { member: any }) {
   const [imageError, setImageError] = useState(false);
 
   return (
-    <div className="w-[240px] md:w-[280px] lg:w-[320px] bg-white/90 dark:bg-gray-900/90 rounded-3xl border border-gray-200 dark:border-gray-800 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-      <div className="flex flex-col items-center text-center gap-4">
+    <div className="w-[240px] md:w-[280px] lg:w-[320px] h-[480px] bg-white/90 dark:bg-gray-900/90 rounded-3xl border border-gray-200 dark:border-gray-800 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col">
+      <div className="flex flex-col items-center text-center gap-4 h-full">
         <div className="relative">
           {image && !imageError ? (
             <Image
@@ -112,14 +112,14 @@ export default function Team() {
     <section id="team" className="min-h-screen flex items-center py-24 px-6 bg-gradient-to-b from-white via-green-50/30 to-white dark:from-gray-950 dark:via-green-950/10 dark:to-gray-950 relative">
       {/* Subtle noise texture */}
       <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05] pointer-events-none bg-noise"></div>
-      
+
       {/* Decorative elements */}
       <div className="absolute top-1/4 right-10 w-80 h-80 bg-green-400/10 dark:bg-green-600/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-1/4 left-10 w-80 h-80 bg-blue-400/10 dark:bg-blue-600/10 rounded-full blur-3xl"></div>
-      
+
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -145,10 +145,10 @@ export default function Team() {
 
         {/* Organizer in Center */}
         {organizer && (
-            <motion.div
+          <motion.div
             className="mb-16"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
             viewport={{ once: true, amount: 0.5 }}
           >
@@ -177,19 +177,19 @@ export default function Team() {
                       style={{ backgroundColor: "#4285f4" }}
                     >
                       {getInitials(organizer.name)}
-                </div>
+                    </div>
                   )}
                   <div className="absolute bottom-2 right-1/2 translate-x-14 w-5 h-5 bg-green-500 rounded-full border-2 border-white dark:border-gray-900 shadow-md">
-                  <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-75"></div>
+                    <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-75"></div>
+                  </div>
                 </div>
-              </div>
-              <div className="text-center">
+                <div className="text-center">
                   <div className="inline-flex items-center gap-2 px-3 py-1 mb-3 bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 text-xs font-medium rounded-full border border-blue-200 dark:border-blue-800">
                     Organizer
                   </div>
                   <h3 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
                     {organizer.name}
-                </h3>
+                  </h3>
                   <p className="text-base font-semibold mb-4 text-[#4285f4]">
                     {organizer.role}
                   </p>
@@ -202,11 +202,11 @@ export default function Team() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all hover:scale-105 shadow-sm"
-                  aria-label="LinkedIn"
-                >
+                      aria-label="LinkedIn"
+                    >
                       <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                  </svg>
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                      </svg>
                       <span className="text-sm font-medium text-gray-600 dark:text-gray-300">LinkedIn</span>
                     </a>
                   )}
@@ -242,7 +242,7 @@ export default function Team() {
                 scaleOnHover
                 fadeOut={false}
                 ariaLabel="Team members showcase"
-                className="py-12"
+                className="py-24"
                 renderItem={(item) => ("node" in item ? item.node : null)}
               />
             </div>

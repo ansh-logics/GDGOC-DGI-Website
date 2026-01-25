@@ -132,11 +132,10 @@ export default function EventsPage() {
             {/* UPCOMING TAB */}
             <button
               onClick={() => setActiveTab("upcoming")}
-              className={`px-6 py-2.5 rounded-full font-semibold text-sm transition-all ${
-                activeTab === "upcoming"
+              className={`px-6 py-2.5 rounded-full font-semibold text-sm transition-all ${activeTab === "upcoming"
                   ? "bg-gradient-to-r from-[#4285f4] to-[#3367d6] text-white shadow-md"
                   : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-              }`}
+                }`}
             >
               Upcoming ({upcomingEvents.length})
             </button>
@@ -144,11 +143,10 @@ export default function EventsPage() {
             {/* PAST TAB */}
             <button
               onClick={() => setActiveTab("past")}
-              className={`px-6 py-2.5 rounded-full font-semibold text-sm transition-all ${
-                activeTab === "past"
+              className={`px-6 py-2.5 rounded-full font-semibold text-sm transition-all ${activeTab === "past"
                   ? "bg-gradient-to-r from-[#4285f4] to-[#3367d6] text-white shadow-md"
                   : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-              }`}
+                }`}
             >
               Past Events ({pastEvents.length})
             </button>
@@ -163,51 +161,72 @@ export default function EventsPage() {
         >
           {/* YEAR FILTER (only for past) */}
           {activeTab === "past" && (
-            <select
-              value={selectedYear}
-              onChange={(e) =>
-                setSelectedYear(e.target.value === "all" ? "all" : Number(e.target.value))
-              }
-              className="px-4 py-2 bg-white dark:bg-gray-900 border rounded-xl"
-            >
-              <option value="all">All Years</option>
-              {years.map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                value={selectedYear}
+                onChange={(e) =>
+                  setSelectedYear(e.target.value === "all" ? "all" : Number(e.target.value))
+                }
+                className="appearance-none pl-5 pr-10 py-2.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full text-sm font-medium text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20 focus:border-[#4285F4] hover:border-gray-300 dark:hover:border-gray-700 transition-all cursor-pointer shadow-sm"
+              >
+                <option value="all">All Years</option>
+                {years.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
           )}
 
           {/* MONTH FILTER */}
-          <select
-            value={selectedMonth}
-            onChange={(e) =>
-              setSelectedMonth(e.target.value === "all" ? "all" : Number(e.target.value))
-            }
-            className="px-4 py-2 bg-white dark:bg-gray-900 border rounded-xl"
-          >
-            <option value="all">All Months</option>
-            {months.map((m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={selectedMonth}
+              onChange={(e) =>
+                setSelectedMonth(e.target.value === "all" ? "all" : Number(e.target.value))
+              }
+              className="appearance-none pl-5 pr-10 py-2.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full text-sm font-medium text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20 focus:border-[#4285F4] hover:border-gray-300 dark:hover:border-gray-700 transition-all cursor-pointer shadow-sm"
+            >
+              <option value="all">All Months</option>
+              {months.map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
 
           {/* SLUG FILTER */}
-          <select
-            value={selectedSlug}
-            onChange={(e) => setSelectedSlug(e.target.value)}
-            className="px-4 py-2 bg-white dark:bg-gray-900 border rounded-xl"
-          >
-            <option value="all">All Categories</option>
-            {slugs.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={selectedSlug}
+              onChange={(e) => setSelectedSlug(e.target.value)}
+              className="appearance-none pl-5 pr-10 py-2.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full text-sm font-medium text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20 focus:border-[#4285F4] hover:border-gray-300 dark:hover:border-gray-700 transition-all cursor-pointer shadow-sm"
+            >
+              <option value="all">All Categories</option>
+              {slugs.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </motion.div>
 
         {/* EVENTS GRID */}

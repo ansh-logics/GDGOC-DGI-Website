@@ -49,7 +49,7 @@ export default function EventCardClassy({ event, index = 0 }: EventCardClassyPro
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
       viewport={{ once: true, margin: "-30px", amount: 0.3 }}
-      className="group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-2xl transition-all duration-300"
+      className="group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 transition-all duration-300 ease-in-out hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-blue-900/20"
     >
       {/* Hero Image */}
       <div className="relative h-64 overflow-hidden">
@@ -61,7 +61,7 @@ export default function EventCardClassy({ event, index = 0 }: EventCardClassyPro
         />
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-        
+
         {/* Status badge */}
         <div className="absolute top-4 right-4">
           <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-white/95 text-gray-900 backdrop-blur-sm">
@@ -85,12 +85,12 @@ export default function EventCardClassy({ event, index = 0 }: EventCardClassyPro
       {/* Content */}
       <div className="p-6">
         {/* Title */}
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 min-h-[3.5rem] leading-tight">
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 min-h-[3.5rem] leading-tight font-heading">
           {event.title}
         </h3>
 
         {/* Summary */}
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2 font-body">
           {event.summary}
         </p>
 
@@ -125,7 +125,7 @@ export default function EventCardClassy({ event, index = 0 }: EventCardClassyPro
         {/* CTA Button */}
         <Link
           href={`/events/${event.slug}`}
-          className="block w-full px-4 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-center font-semibold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="block w-full px-4 py-3 bg-[#4285F4] text-white text-center font-semibold rounded-xl hover:bg-[#3367d6] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg"
         >
           View Details
         </Link>

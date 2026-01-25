@@ -34,7 +34,7 @@ const Navbar = () => {
     },
     {
       label: 'Blog',
-      href: '#blog',
+      href: '/blog',
       ariaLabel: 'Read our Blog',
       rotation: 6,
       hoverStyles: { bgColor: '#34A853', textColor: '#ffffff' }
@@ -63,7 +63,7 @@ const Navbar = () => {
         onMenuClick={(open) => setShowBubbleMenu(open)}
         className="top-6 right-16 left-auto justify-end"
       />
-      
+
       {/* Theme Toggle - positioned at top right, next to burger */}
       <div className="fixed top-6 right-6 z-[150]">
         <AnimatedThemeToggler />

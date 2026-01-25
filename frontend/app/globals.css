@@ -308,45 +308,7 @@ p {
 }
 
 /* Noisy Gradient Background */
-.bg-noise-gradient {
-  position: relative;
-  background: linear-gradient(135deg, 
-    #fafaf9 0%, 
-    #fef3f4 25%, 
-    #f0f9ff 50%, 
-    #fef9f3 75%, 
-    #f3f4fe 100%
-  );
-}
 
-.dark .bg-noise-gradient {
-  background: linear-gradient(135deg, 
-    #0f0f0f 0%, 
-    #1a1a1a 25%, 
-    #1a1a2a 50%, 
-    #1a1a1a 75%, 
-    #0f0f0f 100%
-  );
-}
-
-.bg-noise-gradient::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 1;
-}
-
-.dark .bg-noise-gradient::before {
-  opacity: 0.1;
-}
-
-/* Noise Texture Utility */
-.bg-noise {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-}
 
 /* Neumorphism Utilities */
 .neomorph {
@@ -479,12 +441,12 @@ p {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-6px);
   }
 }
 
 .animate-float {
-  animation: float 3s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
