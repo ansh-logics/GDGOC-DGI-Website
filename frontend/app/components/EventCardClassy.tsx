@@ -35,8 +35,35 @@ interface EventCardClassyProps {
 export default function EventCardClassy({ event, index = 0 }: EventCardClassyProps) {
   const eventDate = new Date(event.start);
   const eventEndDate = new Date(event.end);
-  const formattedDate = format(eventDate, "dd MMM, yyyy");
-  const formattedTime = `${format(eventDate, "HH:mm")} - ${format(eventEndDate, "HH:mm")}`;
+  let formattedDate = "TBA";
+  let formattedTime = "TBA";
+
+  if (!isNaN(eventDate.getTime())) {
+    try {
+      formattedDate = format(eventDate, "dd MMM, yyyy");
+      formattedTime = `${format(eventDate, "HH:mm")}`;
+      if (!isNaN(eventEndDate.getTime())) {
+        formattedTime += ` - ${format(eventEndDate, "HH:mm")}`;
+      }
+    } catch (e) {
+      console.error("Date formatting error", e);
+    }
+  }
+
+  // Determine if event is currently active (Live)
+  let isLive = false;
+  const now = new Date();
+  if (!isNaN(eventDate.getTime()) && !isNaN(eventEndDate.getTime())) {
+    isLive = now >= eventDate && now <= eventEndDate;
+  } else if (!isNaN(eventDate.getTime()) && isNaN(eventEndDate.getTime())) {
+    // If only start time is valid, assume live if within reasonable window (e.g. 2 hours)
+    // or just strictly strictly >= start for upcoming vs live separation could be tricky without end
+    // For now trust end date exists or strictly use start date day logic if preferred
+    // But user asked "if date is same day... and ongoing".
+    // Let's stick to start <= now <= end.
+    const twoHoursLater = new Date(eventDate.getTime() + 2 * 60 * 60 * 1000);
+    isLive = now >= eventDate && now <= twoHoursLater;
+  }
 
   const handleRSVP = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -64,9 +91,15 @@ export default function EventCardClassy({ event, index = 0 }: EventCardClassyPro
 
         {/* Status badge */}
         <div className="absolute top-4 right-4">
-          <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-white/95 text-gray-900 backdrop-blur-sm">
-            {event.status === 'upcoming' ? 'Upcoming' : 'Past Event'}
-          </span>
+          {isLive ? (
+            <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-red-600 text-white backdrop-blur-sm shadow-lg animate-[pulse_2s_infinite]">
+              ● Live Now
+            </span>
+          ) : (
+            <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-white/95 text-gray-900 backdrop-blur-sm">
+              {event.status === 'upcoming' ? 'Upcoming' : 'Past Event'}
+            </span>
+          )}
         </div>
 
         {/* Tags overlay */}

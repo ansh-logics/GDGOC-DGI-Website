@@ -28,8 +28,9 @@ export default function EventsPreview({ upcomingEvents }: EventsPreviewProps) {
   // 2️⃣ Convert AllEvents → Event format
   const formattedEvents = past.slice(0, 6).map((e) => {
     const [d, m, y] = e.date.split("-");
-    const startISO = `${y}-${m}-${d}T${e.start}`;
-    const endISO = `${y}-${m}-${d}T${e.end}`;
+    const pad = (n: string) => n.padStart(2, "0");
+    const startISO = e.start.includes("T") ? e.start : `${y}-${pad(m)}-${pad(d)}T${e.start}`;
+    const endISO = e.end.includes("T") ? e.end : `${y}-${pad(m)}-${pad(d)}T${e.end}`;
 
     return {
       id: e.id,
