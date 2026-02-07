@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GDG on Campus DGI Website
 
-## Getting Started
+The official website for **Google Developer Groups (GDG) on Campus at Dronacharya Group of Institutions (DGI)**. This platform serves as a hub for our community events, team information, and resources for student developers.
 
-First, run the development server:
+Built with modern web technologies to provide a fast, responsive, and accessible experience.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Framework**: [Next.js](https://nextjs.org/) (React)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [Lucide React](https://lucide.dev/) & [React Icons](https://react-icons.github.io/react-icons/)
+- **Language**: TypeScript
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Getting Started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Follow these steps to set up the project locally on your machine.
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- npm, yarn, or bun
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/ansh-logics/GDGOC-DGI-Website.git
+    cd GDGOC-DGI-Website/frontend
+    ```
 
-## Deploy on Vercel
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3.  **Run the development server**:
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4.  **Open locally**:
+    Visit [http://localhost:3000](http://localhost:3000) in your browser to see the application running.
+
+## 🤝 Contributing
+
+We welcome contributions from the community! Whether it's fixing bugs, improving documentation, or proposing new features, your help is appreciated.
+
+1.  **Fork** the repository.
+2.  Create a new **branch** for your feature or fix (`git checkout -b feature/amazing-feature`).
+3.  **Commit** your changes (`git commit -m 'Add some amazing feature'`).
+4.  **Push** to the branch (`git push origin feature/amazing-feature`).
+5.  Open a **Pull Request**.
+
+Please ensure your code follows the existing style and conventions.
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 📞 Contact
+
+- **Main Website**: [Coming Soon]
+- **Community Page**: [GDG on Campus DGI](https://gdg.community.dev/gdg-on-campus-dronacharya-group-of-institutions-greater-noida-india/)
+- **GitHub**: [ansh-logics/GDGOC-DGI-Website](https://github.com/ansh-logics/GDGOC-DGI-Website)

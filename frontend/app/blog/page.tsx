@@ -53,7 +53,7 @@ export default function BlogPage() {
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
                             <a
-                                href="https://github.com/Start-Up-Cell-DGI/GDG-OC-DGI-Website"
+                                href="https://github.com/ansh-logics/GDGOC-DGI-Website"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group inline-flex items-center gap-2 px-6 py-3 bg-[#24292e] dark:bg-white text-white dark:text-gray-900 font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"

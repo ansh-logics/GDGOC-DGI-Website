@@ -16,7 +16,7 @@ export default function Footer() {
       { name: "Discord", href: "#" },
       { name: "Twitter", href: "#" },
       { name: "LinkedIn", href: "#" },
-      { name: "GitHub", href: "#" }
+      { name: "GitHub", href: "https://github.com/ansh-logics/GDGOC-DGI-Website" }
     ]
   };
 
@@ -73,7 +73,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://github.com"
+                href="https://github.com/ansh-logics/GDGOC-DGI-Website"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-all hover:scale-110 shadow-sm hover:shadow-md"
