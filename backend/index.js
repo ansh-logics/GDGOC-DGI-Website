@@ -14,16 +14,27 @@ try {
     let message = await connectdb();
     console.log(message);
 } catch (error) {
-  console.log(error.message);
+    console.log(error.message);
 }
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+const cors = require("cors");
+
+app.use(
+    cors({
+        origin: [
+            "https://www.gdgdronacharya.site",
+            "https://gdgdronacharya.site",
+            "http://localhost:3000",
+        ],
+        credentials: true
+    })
+);
 app.use(express.json());
 
-app.get("/test", (req, res)=>{
+app.get("/test", (req, res) => {
     res.send("This hits the backend and it's running");
 });
 app.use("/api/v1", authRouter)
@@ -38,6 +49,6 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(PORT,()=>{
+app.listen(PORT, () => {
     console.log("server is running on PORT = ", PORT);
 });
