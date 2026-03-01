@@ -36,7 +36,7 @@ app.use(cors({
 }));
 
 // ✅ VERY IMPORTANT (preflight)
-app.options("*", cors());
+app.options("/*", cors());
 
 app.use(express.json());
 
