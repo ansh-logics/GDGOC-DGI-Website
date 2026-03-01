@@ -1,12 +1,13 @@
 import express from "express";
 import cors from "cors";
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 import { connectdb } from "./connectDb.js";
-import authRouter from "./routes/auth.routes.js"
+import authRouter from "./routes/auth.routes.js";
+
 dotenv.config();
 
 if (!process.env.JWT_SECRET) {
-    console.error("Missing JWT_SECRET in .env. Add a value like: JWT_SECRET=your-secret-key");
+    console.error("Missing JWT_SECRET in .env");
     process.exit(1);
 }
 
@@ -20,35 +21,39 @@ try {
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const cors = require("cors");
+// ✅ CORS CONFIG
+const allowedOrigins = [
+    "https://www.gdgdronacharya.site",
+    "https://gdgdronacharya.site",
+    "http://localhost:3000"
+];
 
-app.use(
-    cors({
-        origin: [
-            "https://www.gdgdronacharya.site",
-            "https://gdgdronacharya.site",
-            "http://localhost:3000",
-        ],
-        credentials: true
-    })
-);
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+// ✅ VERY IMPORTANT (preflight)
+app.options("*", cors());
+
 app.use(express.json());
 
 app.get("/test", (req, res) => {
-    res.send("This hits the backend and it's running");
+    res.send("Backend running ✅");
 });
-app.use("/api/v1", authRouter)
+
+app.use("/api/v1", authRouter);
 
 app.use((err, req, res, next) => {
     console.error(err);
-    if (res.headersSent) {
-        return next(err);
-    }
+    if (res.headersSent) return next(err);
     res.status(500).json({
         error: err?.message || "Internal server error"
     });
 });
 
 app.listen(PORT, () => {
-    console.log("server is running on PORT = ", PORT);
+    console.log("Server running on PORT =", PORT);
 });
