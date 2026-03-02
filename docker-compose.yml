@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  backend:
+    image: anshbhatt/gdg-backend:${IMAGE_TAG}
+    container_name: gdg_backend
+    restart: always
+
+    ports:
+      - "3000:3000"
+
+    env_file:
+      - .env
