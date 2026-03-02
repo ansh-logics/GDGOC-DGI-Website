@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd ~/GDGOC-DGI-Website/backend
+            cd ~/GDGOC-DGI-Website/
 
             IMAGE_TAG="${{ github.event.inputs.image_tag }}"
             if [ -z "$IMAGE_TAG" ]; then
