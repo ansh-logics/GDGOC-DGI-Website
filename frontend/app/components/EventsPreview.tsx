@@ -6,9 +6,10 @@ import { AllEvents } from "@/types/event";
 
 interface EventsPreviewProps {
   upcomingEvents: AllEvents[];
+  loading?: boolean;
 }
 
-export default function EventsPreview({ upcomingEvents }: EventsPreviewProps) {
+export default function EventsPreview({ upcomingEvents, loading }: EventsPreviewProps) {
   console.log("Raw events:", upcomingEvents);
 
   const today = new Date();
@@ -93,7 +94,26 @@ export default function EventsPreview({ upcomingEvents }: EventsPreviewProps) {
           </p>
         </motion.div>
 
-        {formattedEvents.length > 0 ? (
+        {loading ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="rounded-3xl bg-white/80 dark:bg-gray-900/80 border border-gray-200/70 dark:border-gray-800/70 shadow-medium p-5 animate-pulse space-y-4"
+              >
+                <div className="h-40 rounded-2xl bg-gray-200/80 dark:bg-gray-800/80" />
+                <div className="h-4 w-3/4 rounded-full bg-gray-200/80 dark:bg-gray-800/80" />
+                <div className="h-3 w-1/2 rounded-full bg-gray-200/70 dark:bg-gray-800/70" />
+                <div className="h-3 w-2/3 rounded-full bg-gray-200/70 dark:bg-gray-800/70" />
+              </div>
+            ))}
+          </motion.div>
+        ) : formattedEvents.length > 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

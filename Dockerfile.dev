@@ -1,0 +1,15 @@
+FROM node:20-alpine
+
+WORKDIR /workspace
+
+COPY backend/package*.json backend/
+COPY frontend/package*.json frontend/
+
+RUN cd backend && npm install && cd ../frontend && npm install
+
+COPY . .
+
+EXPOSE 3000 4000
+
+CMD ["sh", "-c", "cd backend && PORT=4000 npm run dev & cd frontend && npm run dev"]
+

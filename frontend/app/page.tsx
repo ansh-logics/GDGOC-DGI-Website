@@ -13,20 +13,20 @@ import getAllEvents from "./api/controllers/getAllEvents";
 import getSpecificEvent from "./api/controllers/getSpecificEvent";
 
 export default function Home() {
-  const[event,setEvents]=useState<AllEvents[]>([]);
+  const [event, setEvents] = useState<AllEvents[]>([]);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     const fetchData = async () => {
       try {
         await checkCache();
-         const all = await getAllEvents();
-        console.log(all)
-        setEvents(all)
+        const all = await getAllEvents();
+        setEvents(all);
         await getSpecificEvent("ai-ml-workshop");
-        
-
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -38,7 +38,7 @@ export default function Home() {
       <main className="overflow-y-auto scroll-smooth">
         <Hero />
         <About />
-        <EventsPreview upcomingEvents={event} />
+        <EventsPreview upcomingEvents={event} loading={loading} />
         <Team />
         {/* <TimelineSection /> */}
         <Footer />

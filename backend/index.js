@@ -1,25 +1,56 @@
-import express from "express"
-import dotenv from 'dotenv'
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
 import { connectdb } from "./connectDb.js";
-import authRouter from "./routes/auth.routes.js"
+import authRouter from "./routes/auth.routes.js";
+
 dotenv.config();
+
+if (!process.env.JWT_SECRET) {
+    console.error("Missing JWT_SECRET in .env");
+    process.exit(1);
+}
+
 try {
     let message = await connectdb();
     console.log(message);
 } catch (error) {
-  console.log(error.messsage);
+    console.log(error.message);
 }
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// ✅ CORS CONFIG
+const allowedOrigins = [
+    "https://www.gdgdronacharya.site",
+    "https://gdgdronacharya.site",
+    "http://localhost:3000"
+];
+
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(express.json());
 
-app.get("/test", (req, res)=>{
-    res.send("This hits the backend and it's running");
+app.get("/test", (req, res) => {
+    res.send("Backend running ✅");
 });
-app.use("/api/v1", authRouter)
 
-app.listen(PORT,()=>{
-    console.log("server is running on PORT = ", PORT);
+app.use("/api/v1", authRouter);
+
+app.use((err, req, res, next) => {
+    console.error(err);
+    if (res.headersSent) return next(err);
+    res.status(500).json({
+        error: err?.message || "Internal server error"
+    });
+});
+
+app.listen(PORT, () => {
+    console.log("Server running on PORT =", PORT);
 });
