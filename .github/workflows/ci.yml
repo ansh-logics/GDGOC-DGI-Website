@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/gdg-backend:${{ steps.meta.outputs.tag }} .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/gdg-backend:${{ steps.meta.outputs.tag }} ./backend
 
       - name: Push Image
         run: |
