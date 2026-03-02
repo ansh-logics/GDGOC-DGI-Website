@@ -7,6 +7,9 @@ on:
         description: "Docker image tag"
         required: true
 
+  push:
+    branches: [prod]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
