@@ -7,6 +7,11 @@ on:
         description: "Docker image tag"
         required: true
 
+  workflow_run:
+    workflows: ["Build Docker Image"]
+    types:
+      - completed
+
   push:
     branches: [prod]
 
