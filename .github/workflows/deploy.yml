@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd ~/backend
+            cd ~/GDGOC-DGI-Website/backend
             export IMAGE_TAG=${{ github.event.inputs.image_tag }}
             docker compose pull
             docker compose up -d
