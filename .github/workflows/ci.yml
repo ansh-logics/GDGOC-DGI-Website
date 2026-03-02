@@ -6,7 +6,7 @@ on:
 
 jobs:
   build: 
-    runs: ubuntu-latest
+    runs-on: ubuntu-latest
 
     outputs:
       image_tag: ${{ steps.meta.outputs.tag }}
