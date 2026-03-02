@@ -23,6 +23,13 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd ~/GDGOC-DGI-Website/backend
-            export IMAGE_TAG=${{ github.event.inputs.image_tag }}
+
+            IMAGE_TAG="${{ github.event.inputs.image_tag }}"
+            if [ -z "$IMAGE_TAG" ]; then
+              IMAGE_TAG="${{ github.sha }}"
+            fi
+
+            export IMAGE_TAG=$IMAGE_TAG
+
             docker compose pull
             docker compose up -d
