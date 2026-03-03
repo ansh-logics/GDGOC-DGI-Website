@@ -1,12 +1,6 @@
 name: Deploy Backend
 
 on:
-  workflow_dispatch:
-    inputs:
-      image_tag:
-        description: "Docker image tag"
-        required: true
-
   workflow_run:
     workflows: ["Build Docker Image"]
     types:
@@ -14,7 +8,6 @@ on:
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
 
     steps:
