@@ -2,7 +2,10 @@ name: Build Docker Image
 
 on:
   push:
-    branch: [prod]
+    branches: [prod]
+    paths:
+      - "backend/**"
+      - "docker-compose.yml"
 
 jobs:
   build: 
