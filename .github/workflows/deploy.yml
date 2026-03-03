@@ -12,14 +12,9 @@ on:
     types:
       - completed
 
-  push:
-    branches: [prod]
-        paths:
-        - "backend/**"
-        - "docker-compose.yml"
-
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -30,11 +25,11 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd ~/GDGOC-DGI-Website/
+            cd /root/GDGOC-DGI-Website
 
-            IMAGE_TAG="${{ github.event.inputs.image_tag }}"
+            IMAGE_TAG="${{ github.event.workflow_run.head_sha }}"
             if [ -z "$IMAGE_TAG" ]; then
-              IMAGE_TAG="${{ github.sha }}"
+              IMAGE_TAG="${{ github.event.inputs.image_tag }}"
             fi
 
             export IMAGE_TAG=$IMAGE_TAG
