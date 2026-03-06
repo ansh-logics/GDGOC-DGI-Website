@@ -82,7 +82,7 @@ const eventSchema = new mongoose.Schema(
 }
 );
 
-eventSchema.index({ venue: 1, startTime: 1, endTime: 1 });
+eventSchema.index({ location:1, venue: 1, startTime: 1, endTime: 1 });
 eventSchema.index({title:"text", description:"text", tags:"text"},
    {
       weights:{
