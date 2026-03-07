@@ -1,9 +1,9 @@
-import { addBannerService, addThumbnailService, createEvent, deleteEventService, getEventBySlugService, getEventsService, updateEventService  } from "../services/event.service";
+import { addBannerService, addThumbnailService, createEvent, deleteEventService, getEventBySlugService, getEventsService, updateEventService  } from "../services/event.service.js";
 
 export async function createEventController(req, res){
     let data = req.body;
     try{
-        const result = createEvent(data.title, data.slug, data.description, data.summary, data.startTime, data.endTime, data.location, data.venue, data.bannerUrl, data.thumbnailUrl, data.registrationUrl, data.tags);
+        const result = createEvent(data.title, data.slug, data.description, data.summary, data.startTime, data.endTime, data.eventType, data.location, data.venue, data.registrationUrl, data.tags);
         res.status(201).json(result);
     }catch(err){
         res.status(400).json({error:err.message});

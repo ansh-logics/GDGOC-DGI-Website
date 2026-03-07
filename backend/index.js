@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectdb } from "./connectDb.js";
 import authRouter from "./routes/auth.routes.js";
+import eventRouter from "./routes/event.routes.js"
 
 dotenv.config();
 
@@ -41,7 +42,8 @@ app.get("/test", (req, res) => {
     res.send("Backend running ✅");
 });
 
-app.use("/api/v1", authRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/event", eventRouter);
 
 app.use((err, req, res, next) => {
     console.error(err);

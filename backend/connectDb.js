@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 dotenv.config();
-let MONGO_URL = process.env.MONGO_CONNECTION
+let MONGO_URL = process.env.MONGO_CONNECTION;
 
 export async function connectdb(){
     try{
