@@ -53,18 +53,61 @@ export async function getEventsService({page = 1, limit = 10, search, tag, event
         pages: Math.ceil(total/limit)
     }
 }
-export async function addThumbnailService() {
+
+export async function updateEventService(id, data){
+    try{
+        const event = await Event.findByIdAndUpdate(
+            id,
+            data,
+            {new:true, runValidators: true}
+        );
+        return event;
+    }catch(err){
+        throw new Error(err.message);
+    }
+}
+
+export async function getEventBySlugService(slug){
+    try{
+        let event = Event.findOne({slug});
+    }catch(err){
+        throw new Error(err.message)
+    }
+}
+export async function addThumbnailService(eventId, imageUrl) {
+    try{
+        let event = await Event.findByIdAndUpdate(
+            eventId,
+            {thumbnailUrl: imageUrl},
+            {new: true, runValidators: true}
+        );
+        return event;
+    }catch(err){
+        throw new Error(err.message)
+    }
     
 }
 
-export async function updateThumbnailService(){
 
+
+export async function addBannerService(eventId, imageUrl){
+    try{
+        let event = await Event.findByIdAndUpdate(
+            eventId,
+            {bannerUrl: imageUrl},
+            {new: true, runValidators: true}
+        );
+        return event;
+    }catch(err){
+        throw new Error(err.message)
+    }
 }
 
-export async function addBannerService(){
-
-}
-
-export async function updateBannerService() {
+export async function deleteEventService(eventId) {
+    try{
+        await Event.findByIdAndDelete(eventId);
+    }catch(err){
+        throw new Error(err.message);
+    }
     
 }
