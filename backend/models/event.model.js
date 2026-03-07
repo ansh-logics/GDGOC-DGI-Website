@@ -58,12 +58,10 @@ const eventSchema = new mongoose.Schema(
 
    bannerUrl:{
     type:String,
-    required:true
    },
 
    thumbnailUrl:{
     type:String,
-    required:true
    },
 
    registrationUrl:{
