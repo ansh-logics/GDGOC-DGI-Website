@@ -26,7 +26,8 @@ const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
     "https://www.gdgdronacharya.site",
     "https://gdgdronacharya.site",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://localhost:3001"
 ];
 
 app.use(cors({

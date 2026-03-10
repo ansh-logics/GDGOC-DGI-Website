@@ -5,9 +5,12 @@ import { addBannerController, addThumbnailController, createEventController, del
 
 let router = express.Router()
 
+// Public read routes
+router.get("/", getEventsController);
+router.get("/:slug", getEventBySlugController);
+
+// Protected write routes
 router.post("/", authMiddleware, createEventController);
-router.get("/", authMiddleware, getEventsController);
-router.get("/:slug", authMiddleware, getEventBySlugController);
 router.patch("/:eventId/add-thumbnail", authMiddleware, upload.single("thumbnail"), addThumbnailController);
 router.patch("/:eventid/add-banner", authMiddleware, upload.single("banner"), addBannerController);
 router.patch("/:eventId", authMiddleware, updateEventController);

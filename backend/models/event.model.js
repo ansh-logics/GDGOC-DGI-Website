@@ -40,7 +40,7 @@ const eventSchema = new mongoose.Schema(
 
    eventType:{
     type:String,
-    enum:["virtual", "inperson"],
+    enum:["virtual", "inperson", "offline"],
     required:true
    },
 
@@ -70,9 +70,37 @@ const eventSchema = new mongoose.Schema(
    },
 
    tags:{
-    type:[String],
-    default:[]
-   }
+   type:[String],
+   default:[]
+   },
+
+   host:{
+      name:{ type:String },
+      avatar:{ type:String },
+      title:{ type:String },
+      bio:{ type:String },
+      linkedin:{ type:String },
+      x:{ type:String }
+   },
+
+   speakers:[
+      {
+         name:{ type:String },
+         avatar:{ type:String },
+         title:{ type:String },
+         bio:{ type:String },
+         linkedin:{ type:String },
+         x:{ type:String }
+      }
+   ],
+
+   agenda:[
+      {
+         time:{ type:String },
+         title:{ type:String },
+         description:{ type:String }
+      }
+   ]
 
 },
 {

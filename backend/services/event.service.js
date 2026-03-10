@@ -70,7 +70,8 @@ export async function updateEventService(id, data){
 
 export async function getEventBySlugService(slug){
     try{
-        let event = Event.findOne({slug});
+        const event = await Event.findOne({slug});
+        return event;
     }catch(err){
         throw new Error(err.message)
     }

@@ -1,9 +1,10 @@
 import { addBannerService, addThumbnailService, createEvent, deleteEventService, getEventBySlugService, getEventsService, updateEventService  } from "../services/event.service.js";
 
 export async function createEventController(req, res){
-    let data = req.body;
     try{
-        const result = createEvent(data.title, data.slug, data.description, data.summary, data.startTime, data.endTime, data.eventType, data.location, data.venue, data.registrationUrl, data.tags);
+        let data = req.body;
+        console.log(data);
+        const result = await createEvent(data.title, data.slug, data.description, data.summary, data.startTime, data.endTime, data.eventType, data.location, data.venue, data.registrationUrl, data.tags);
         res.status(201).json(result);
     }catch(err){
         res.status(400).json({error:err.message});
@@ -14,8 +15,8 @@ export async function getEventsController(req, res) {
     
     try{
         const result = await getEventsService({
-            page: Number(page),
-            limit: Number(limit),
+            page: page ? Number(page) || 1 : 1,
+            limit: limit ? Number(limit) || 10 : 10,
             search,
             tag,
             eventType
@@ -28,21 +29,23 @@ export async function getEventsController(req, res) {
 
 }
 export async function getEventBySlugController(req, res) {
-    const slug = req.params;
+    const { slug } = req.params;
     try{
-        let result = getEventBySlugService(slug);
+        const result = await getEventBySlugService(slug);
+        if (!result) {
+            return res.status(404).json({ error: "Event not found" });
+        }
         res.status(200).json(result);
     }catch(err){
         res.status(400).json({error:err.message});
     }
-    
 }
 export async function updateEventController(req, res){
-    const {id} = req.params;
+    const { eventId } = req.params;
     const data = req.body;
     try{
-        let event = updateEventService(id, data);
-        res.status(201).json(event);
+        const event = await updateEventService(eventId, data);
+        res.status(200).json(event);
     }catch(err){
         res.status(400).json({error:err.message});
     }
