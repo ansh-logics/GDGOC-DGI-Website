@@ -7,11 +7,25 @@ async function checkEventOverlap(startTime, endTime, location, venue){
         startTime: { $lt: endTime },
         endTime: { $gt: startTime },
     });
-    console.log(conflict);
     return conflict;
     
 }
-export async function createEvent(title, slug, description, summary, startTime, endTime, eventType, location, venue, registrationUrl, tags){
+export async function createEvent(
+  title,
+  slug,
+  description,
+  summary,
+  startTime,
+  endTime,
+  eventType,
+  location,
+  venue,
+  registrationUrl,
+  tags,
+  host,
+  speakers,
+  agenda
+){
      const existingSlug = await Event.findOne({slug});
 
      if (existingSlug){
@@ -23,7 +37,22 @@ export async function createEvent(title, slug, description, summary, startTime, 
         throw new Error("venue is booked");
      }
 
-     const newEvent = await Event.create({title, slug, description, summary, startTime, endTime, eventType, location, venue, registrationUrl, tags});
+     const newEvent = await Event.create({
+        title,
+        slug,
+        description,
+        summary,
+        startTime,
+        endTime,
+        eventType,
+        location,
+        venue,
+        registrationUrl,
+        tags,
+        host,
+        speakers,
+        agenda
+     });
      return newEvent;
 }
 export async function getEventsService({page = 1, limit = 10, search, tag, eventType}){

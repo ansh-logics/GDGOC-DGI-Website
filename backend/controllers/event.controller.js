@@ -3,8 +3,22 @@ import { addBannerService, addThumbnailService, createEvent, deleteEventService,
 export async function createEventController(req, res){
     try{
         let data = req.body;
-        console.log(data);
-        const result = await createEvent(data.title, data.slug, data.description, data.summary, data.startTime, data.endTime, data.eventType, data.location, data.venue, data.registrationUrl, data.tags);
+        const result = await createEvent(
+            data.title,
+            data.slug,
+            data.description,
+            data.summary,
+            data.startTime,
+            data.endTime,
+            data.eventType,
+            data.location,
+            data.venue,
+            data.registrationUrl,
+            data.tags,
+            data.host,
+            data.speakers,
+            data.agenda
+        );
         res.status(201).json(result);
     }catch(err){
         res.status(400).json({error:err.message});
