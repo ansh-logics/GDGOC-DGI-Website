@@ -7,6 +7,7 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import { useAuth } from "@/app/context/AuthContext";
 import { updateProfilePhotoApi } from "@/lib/api";
+import { isAdminEmail } from "@/lib/utils";
 
 const btnClass =
   "px-6 py-2.5 rounded-full font-semibold text-sm transition-all bg-gradient-to-r from-[#4285f4] to-[#3367d6] text-white shadow-md hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed";
@@ -142,6 +143,28 @@ export default function ProfilePage() {
               <dd className="mt-1 text-gray-900 dark:text-white">{user.branch}</dd>
             </div>
           </dl>
+
+          {isAdminEmail(user.email) && (
+            <div className="mt-8 space-y-3">
+              <p className="text-xs font-semibold tracking-wide text-gray-500 dark:text-gray-400 uppercase">
+                Admin actions
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/admin/events"
+                  className="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-[#4285f4] to-[#3367d6] shadow-md hover:opacity-90 transition-opacity"
+                >
+                  Manage events
+                </Link>
+                <Link
+                  href="/admin/events/new"
+                  className="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-full text-sm font-semibold border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                >
+                  Create event
+                </Link>
+              </div>
+            </div>
+          )}
 
           <button
             type="button"

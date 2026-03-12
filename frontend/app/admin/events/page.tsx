@@ -7,7 +7,7 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import { useAuth } from "@/app/context/AuthContext";
 import { isAdminEmail } from "@/lib/utils";
-import { getEventsApi, type BackendEvent } from "@/lib/api";
+import { getEventsApi, deleteEventApi, type BackendEvent } from "@/lib/api";
 
 export default function AdminEventsPage() {
   const { user, token } = useAuth();
@@ -15,15 +15,18 @@ export default function AdminEventsPage() {
   const [events, setEvents] = useState<BackendEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
-      if (!token || !user || !isAdminEmail(user.email)) {
+      // Only attempt to load events once we know the user,
+      // and only for admins. Events API itself is public.
+      if (!user || !isAdminEmail(user.email)) {
         setLoading(false);
         return;
       }
       try {
-        const { events } = await getEventsApi(token);
+        const { events } = await getEventsApi(token || undefined);
         setEvents(events);
       } catch (e) {
         setError(e instanceof Error ? e.message : "Failed to load events");
@@ -32,7 +35,31 @@ export default function AdminEventsPage() {
       }
     }
     load();
-  }, [token]);
+  }, [token, user]);
+
+  const handleDelete = async (event: BackendEvent) => {
+    if (!token) return;
+
+    const name = event.title || event.slug;
+    const input = window.prompt(
+      `This will permanently delete the event "${name}".\n\nType "delete" to confirm.`
+    );
+    if (input !== "delete") {
+      return;
+    }
+
+    try {
+      setDeletingId(event._id);
+      await deleteEventApi(token, event._id);
+      setEvents((prev) => prev.filter((e) => e._id !== event._id));
+    } catch (e) {
+      const msg =
+        e instanceof Error ? e.message : "Failed to delete event";
+      setError(msg);
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   if (!user || !isAdminEmail(user.email)) {
     return (
@@ -143,6 +170,13 @@ export default function AdminEventsPage() {
                     className="px-4 py-2 rounded-full text-sm font-semibold bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                   >
                     Edit Details
+                  </button>
+                  <button
+                    onClick={() => handleDelete(event)}
+                    disabled={deletingId === event._id}
+                    className="px-4 py-2 rounded-full text-sm font-semibold border border-red-500/70 text-red-600 dark:text-red-300 bg-red-50/70 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {deletingId === event._id ? "Deleting…" : "Delete"}
                   </button>
                 </div>
               </motion.div>

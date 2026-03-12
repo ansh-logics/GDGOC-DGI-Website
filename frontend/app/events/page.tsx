@@ -2,13 +2,17 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import EventCardClassy from "@/app/components/EventCardClassy";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import getAllEvents from "../api/controllers/getAllEvents";
 import { AllEvents } from "@/types/event";
+import { useAuth } from "@/app/context/AuthContext";
+import { isAdminEmail } from "@/lib/utils";
 
 export default function EventsPage() {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
 
   const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
@@ -126,6 +130,23 @@ export default function EventsPage() {
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Join our workshops, study jams, and community events to level up your tech skills.
           </p>
+
+          {user && isAdminEmail(user.email) && (
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <Link
+                href="/admin/events"
+                className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-[#4285f4] to-[#3367d6] shadow-md hover:opacity-90 transition-opacity"
+              >
+                Manage events
+              </Link>
+              <Link
+                href="/admin/events/new"
+                className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-semibold border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              >
+                Create event
+              </Link>
+            </div>
+          )}
         </motion.div>
 
         {/* TABS */}

@@ -1,4 +1,4 @@
-const getApiUrl = () => process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const getApiUrl = () => process.env.NEXT_PUBLIC_API_URL;
 
 export type User = {
   _id: string;
@@ -250,6 +250,9 @@ export type CreateEventPayload = {
   tags: string[];
   bannerUrl?: string;
   thumbnailUrl?: string;
+  host?: BackendEvent["host"];
+  speakers?: BackendEvent["speakers"];
+  agenda?: BackendEvent["agenda"];
 };
 
 export async function createEventApi(
@@ -383,5 +386,30 @@ export async function updateEventApi(
   }
 
   return data as BackendEvent;
+}
+export async function deleteEventApi(
+  token: string,
+  eventId: string
+): Promise<void> {
+  const res = await fetch(`${getApiUrl()}/api/v1/event/${encodeURIComponent(eventId)}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const contentType = res.headers.get("content-type") || "";
+  let data: any = null;
+  if (contentType.includes("application/json")) {
+    data = await res.json();
+  }
+
+  if (!res.ok) {
+    const message =
+      data && typeof data === "object" && "error" in data
+        ? (data as any).error
+        : "Failed to delete event";
+    throw new Error(message);
+  }
 }
 

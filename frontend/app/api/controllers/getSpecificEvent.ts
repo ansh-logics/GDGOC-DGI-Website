@@ -46,12 +46,12 @@ export default async function getSpecificEvent(
     year,
     host: backendEvent.host
       ? {
-          name: backendEvent.host.name,
-          avatar: backendEvent.host.avatar,
-          role: backendEvent.host.title,
+          name: backendEvent.host.name || "GDG on Campus Dronacharya",
+          avatar: backendEvent.host.avatar || "/images/gdg-logo.png",
+          role: backendEvent.host.title || "Organizer",
           email: "",
-          linkedin: backendEvent.host.linkedin,
-          x: backendEvent.host.x,
+          linkedin: backendEvent.host.linkedin || "",
+          x: backendEvent.host.x || "",
         }
       : {
           name: "GDG on Campus Dronacharya",
@@ -63,19 +63,19 @@ export default async function getSpecificEvent(
         },
     speakers: Array.isArray(backendEvent.speakers)
       ? backendEvent.speakers.map((s) => ({
-          name: s.name,
-          avatar: s.avatar,
-          title: s.title,
-          bio: s.bio,
-          linkedin: s.linkedin,
-          x: s.x,
+          name: s.name || "",
+          avatar: s.avatar || "",
+          title: s.title || "",
+          bio: s.bio || "",
+          linkedin: s.linkedin || "",
+          x: s.x || "",
         }))
       : [],
     agenda: Array.isArray(backendEvent.agenda)
       ? backendEvent.agenda.map((a) => ({
-          time: a.time,
-          title: a.title,
-          description: a.description,
+          time: a.time || "",
+          title: a.title || "",
+          description: a.description || "",
         }))
       : [],
   };

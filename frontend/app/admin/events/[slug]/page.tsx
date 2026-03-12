@@ -9,6 +9,8 @@ import { useAuth } from "@/app/context/AuthContext";
 import {
   getEventBySlugApi,
   updateEventApi,
+  uploadBannerApi,
+  uploadThumbnailApi,
   type BackendEvent,
 } from "@/lib/api";
 import { isAdminEmail } from "@/lib/utils";
@@ -30,6 +32,12 @@ export default function AdminEditEventPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [currentStep, setCurrentStep] = useState(1);
+
+  const [bannerFile, setBannerFile] = useState<File | null>(null);
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [bannerPreview, setBannerPreview] = useState<string | null>(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     title: "",
@@ -142,7 +150,9 @@ export default function AdminEditEventPage() {
                     description: "",
                   },
                 ],
-        });
+          });
+        setBannerPreview(backend.bannerUrl || null);
+        setThumbnailPreview(backend.thumbnailUrl || null);
       } catch (e) {
         setError(
           e instanceof Error ? e.message : "Failed to load event details"
@@ -237,7 +247,7 @@ export default function AdminEditEventPage() {
     setError(null);
     setSuccess(null);
     try {
-      await updateEventApi(token, event._id, {
+      let updated = await updateEventApi(token, event._id, {
         title: form.title,
         slug: form.slug,
         summary: form.summary,
@@ -262,9 +272,25 @@ export default function AdminEditEventPage() {
           linkedin: form.hostLinkedin,
           x: form.hostX,
         },
-        speakers: form.speakers.filter((s) => s.name.trim()),
-        agenda: form.agenda.filter((a) => a.title.trim()),
+        speakers: form.speakers.filter((s) => Boolean(s.name?.trim())),
+        agenda: form.agenda.filter((a) => Boolean(a.title?.trim())),
       });
+
+      if (thumbnailFile) {
+        updated = await uploadThumbnailApi(token, updated._id, thumbnailFile);
+      }
+      if (bannerFile) {
+        updated = await uploadBannerApi(token, updated._id, bannerFile);
+      }
+
+      setEvent(updated);
+      setForm((prev) => ({
+        ...prev,
+        bannerUrl: updated.bannerUrl || prev.bannerUrl,
+        thumbnailUrl: updated.thumbnailUrl || prev.thumbnailUrl,
+      }));
+      setBannerPreview(updated.bannerUrl || null);
+      setThumbnailPreview(updated.thumbnailUrl || null);
       setSuccess("Event updated successfully.");
     } catch (err) {
       setError(
@@ -322,15 +348,25 @@ export default function AdminEditEventPage() {
                 </svg>
                 Back to events
               </button>
-              <div className="inline-flex items-center gap-2 px-4 py-2 mb-3 bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 text-sm rounded-full border border-red-200 dark:border-red-800">
-                Edit Event
+
+              <div className="flex items-center justify-between gap-4 mb-2">
+                <div>
+                  <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+                    {event.title}
+                  </h1>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                    Update core details, host, speakers and agenda.
+                  </p>
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    className="px-5 py-2 rounded-full text-sm font-semibold border border-red-500/70 text-red-500 bg-red-500/5 hover:bg-red-500/10 dark:border-red-500 dark:text-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 transition-colors"
+                  >
+                    Edit Event
+                  </button>
+                </div>
               </div>
-              <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
-                {event.title}
-              </h1>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-                Update core details, host, speakers and agenda.
-              </p>
             </motion.div>
 
             <motion.form
@@ -349,374 +385,677 @@ export default function AdminEditEventPage() {
                   {success}
                 </div>
               )}
-
-              {/* Basic Info */}
-              <section>
-                <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wide">
-                  Basic Information
-                </h2>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className={labelClass}>Title</label>
-                    <input
-                      className={inputClass}
-                      value={form.title}
-                      onChange={(e) => handleChange("title", e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Slug</label>
-                    <input
-                      className={inputClass}
-                      value={form.slug}
-                      onChange={(e) => handleChange("slug", e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Summary</label>
-                    <input
-                      className={inputClass}
-                      value={form.summary}
-                      onChange={(e) => handleChange("summary", e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Event Type</label>
-                    <select
-                      className={inputClass}
-                      value={form.eventType}
-                      onChange={(e) =>
-                        handleChange(
-                          "eventType",
-                          e.target.value as BackendEvent["eventType"]
-                        )
-                      }
-                    >
-                      <option value="offline">Offline</option>
-                      <option value="inperson">In person</option>
-                      <option value="virtual">Virtual</option>
-                    </select>
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className={labelClass}>Description</label>
-                    <textarea
-                      className={`${inputClass} min-h-[90px]`}
-                      value={form.description}
-                      onChange={(e) =>
-                        handleChange("description", e.target.value)
-                      }
-                    />
-                  </div>
+              {/* Stepper */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex gap-3">
+                  {[
+                    { id: 1, label: "Basic" },
+                    { id: 2, label: "Host" },
+                    { id: 3, label: "Speakers" },
+                    { id: 4, label: "Agenda & Media" },
+                  ].map((step) => {
+                    const isActive = currentStep === step.id;
+                    const isCompleted = currentStep > step.id;
+                    return (
+                      <button
+                        key={step.id}
+                        type="button"
+                        onClick={() => setCurrentStep(step.id)}
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
+                          isActive
+                            ? "bg-[#4285f4] text-white border-[#4285f4]"
+                            : isCompleted
+                            ? "bg-green-50 text-green-700 border-green-200 dark:bg-green-950/30 dark:text-green-400 dark:border-green-800"
+                            : "bg-gray-50 text-gray-600 border-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:border-gray-800"
+                        }`}
+                      >
+                        <span className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-current text-[11px]">
+                          {step.id}
+                        </span>
+                        <span>{step.label}</span>
+                      </button>
+                    );
+                  })}
                 </div>
-              </section>
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  Step {currentStep} of 4
+                </span>
+              </div>
 
-              {/* Timing & Location */}
-              <section>
-                <h2 className="text-sm font-semibold text-gray-900 dark:text_WHITE mb-4 uppercase tracking-wide">
-                  Timing & Location
-                </h2>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className={labelClass}>Start Time (ISO)</label>
-                    <input
-                      className={inputClass}
-                      value={form.startTime}
-                      onChange={(e) =>
-                        handleChange("startTime", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>End Time (ISO)</label>
-                    <input
-                      className={inputClass}
-                      value={form.endTime}
-                      onChange={(e) => handleChange("endTime", e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Location</label>
-                    <input
-                      className={inputClass}
-                      value={form.location}
-                      onChange={(e) =>
-                        handleChange("location", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Venue</label>
-                    <input
-                      className={inputClass}
-                      value={form.venue}
-                      onChange={(e) => handleChange("venue", e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Registration URL</label>
-                    <input
-                      className={inputClass}
-                      value={form.registrationUrl}
-                      onChange={(e) =>
-                        handleChange("registrationUrl", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Tags (comma separated)</label>
-                    <input
-                      className={inputClass}
-                      value={form.tags}
-                      onChange={(e) => handleChange("tags", e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Banner URL</label>
-                    <input
-                      className={inputClass}
-                      value={form.bannerUrl}
-                      onChange={(e) =>
-                        handleChange("bannerUrl", e.target.value)
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Thumbnail URL</label>
-                    <input
-                      className={inputClass}
-                      value={form.thumbnailUrl}
-                      onChange={(e) =>
-                        handleChange("thumbnailUrl", e.target.value)
-                      }
-                    />
-                  </div>
-                </div>
-              </section>
-
-              {/* Host */}
-              <section>
-                <h2 className="text-sm font-semibold text-gray-900 dark:text_WHITE mb-4 uppercase tracking-wide">
-                  Host
-                </h2>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className={labelClass}>Name</label>
-                    <input
-                      className={inputClass}
-                      value={form.hostName}
-                      onChange={(e) =>
-                        setForm((prev) => ({
-                          ...prev,
-                          hostName: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Title</label>
-                    <input
-                      className={inputClass}
-                      value={form.hostTitle}
-                      onChange={(e) =>
-                        setForm((prev) => ({
-                          ...prev,
-                          hostTitle: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Avatar URL</label>
-                    <input
-                      className={inputClass}
-                      value={form.hostAvatar}
-                      onChange={(e) =>
-                        setForm((prev) => ({
-                          ...prev,
-                          hostAvatar: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClass}>LinkedIn</label>
-                    <input
-                      className={inputClass}
-                      value={form.hostLinkedin}
-                      onChange={(e) =>
-                        setForm((prev) => ({
-                          ...prev,
-                          hostLinkedin: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className={labelClass}>Bio</label>
-                    <textarea
-                      className={`${inputClass} min-h-[70px]`}
-                      value={form.hostBio}
-                      onChange={(e) =>
-                        setForm((prev) => ({
-                          ...prev,
-                          hostBio: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                </div>
-              </section>
-
-              {/* Speakers */}
-              <section>
-                <div className="flex items-center justify-between mb-2">
-                  <h2 className="text-sm font-semibold text-gray-900 dark:text_WHITE uppercase tracking-wide">
-                    Speakers
-                  </h2>
-                  <button
-                    type="button"
-                    onClick={addSpeaker}
-                    className="text-xs font-semibold text-[#4285F4] hover:underline"
-                  >
-                    + Add speaker
-                  </button>
-                </div>
-                <div className="space-y-4">
-                  {form.speakers.map((speaker, index) => (
-                    <div
-                      key={index}
-                      className="grid md:grid-cols-2 gap-4 border border-gray-200 dark:border-gray-800 rounded-xl p-4"
-                    >
-                      <div>
-                        <label className={labelClass}>Name</label>
-                        <input
-                          className={inputClass}
-                          value={speaker.name}
-                          onChange={(e) =>
-                            handleSpeakerChange(index, "name", e.target.value)
-                          }
-                        />
-                      </div>
+              {/* Step 1: Basic + Timing */}
+              {currentStep === 1 && (
+                <>
+                  <section>
+                    <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wide">
+                      Basic Information
+                    </h2>
+                    <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <label className={labelClass}>Title</label>
                         <input
                           className={inputClass}
-                          value={speaker.title}
+                          value={form.title}
                           onChange={(e) =>
-                            handleSpeakerChange(index, "title", e.target.value)
+                            handleChange("title", e.target.value)
                           }
                         />
                       </div>
                       <div>
-                        <label className={labelClass}>Avatar URL</label>
+                        <label className={labelClass}>Slug</label>
                         <input
                           className={inputClass}
-                          value={speaker.avatar}
+                          value={form.slug}
                           onChange={(e) =>
-                            handleSpeakerChange(
-                              index,
-                              "avatar",
-                              e.target.value
+                            handleChange("slug", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Summary</label>
+                        <input
+                          className={inputClass}
+                          value={form.summary}
+                          onChange={(e) =>
+                            handleChange("summary", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Event Type</label>
+                        <select
+                          className={inputClass}
+                          value={form.eventType}
+                          onChange={(e) =>
+                            handleChange(
+                              "eventType",
+                              e.target.value as BackendEvent["eventType"]
                             )
                           }
-                        />
-                      </div>
-                      <div>
-                        <label className={labelClass}>LinkedIn</label>
-                        <input
-                          className={inputClass}
-                          value={speaker.linkedin}
-                          onChange={(e) =>
-                            handleSpeakerChange(
-                              index,
-                              "linkedin",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label className={labelClass}>Bio</label>
-                        <textarea
-                          className={`${inputClass} min-h-[60px]`}
-                          value={speaker.bio}
-                          onChange={(e) =>
-                            handleSpeakerChange(index, "bio", e.target.value)
-                          }
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* Agenda */}
-              <section>
-                <div className="flex items-center justify-between mb-2">
-                  <h2 className="text-sm font-semibold text-gray-900 dark:text_WHITE uppercase tracking-wide">
-                    Agenda
-                  </h2>
-                  <button
-                    type="button"
-                    onClick={addAgendaItem}
-                    className="text-xs font-semibold text-[#4285F4] hover:underline"
-                  >
-                    + Add agenda item
-                  </button>
-                </div>
-                <div className="space-y-4">
-                  {form.agenda.map((item, index) => (
-                    <div
-                      key={index}
-                      className="grid md:grid-cols-2 gap-4 border border-gray-200 dark:border-gray-800 rounded-xl p-4"
-                    >
-                      <div>
-                        <label className={labelClass}>Time</label>
-                        <input
-                          className={inputClass}
-                          value={item.time}
-                          onChange={(e) =>
-                            handleAgendaChange(index, "time", e.target.value)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <label className={labelClass}>Title</label>
-                        <input
-                          className={inputClass}
-                          value={item.title}
-                          onChange={(e) =>
-                            handleAgendaChange(index, "title", e.target.value)
-                          }
-                        />
+                        >
+                          <option value="offline">Offline</option>
+                          <option value="inperson">In person</option>
+                          <option value="virtual">Virtual</option>
+                        </select>
                       </div>
                       <div className="md:col-span-2">
                         <label className={labelClass}>Description</label>
                         <textarea
-                          className={`${inputClass} min-h-[60px]`}
-                          value={item.description}
+                          className={`${inputClass} min-h-[90px]`}
+                          value={form.description}
                           onChange={(e) =>
-                            handleAgendaChange(
-                              index,
-                              "description",
-                              e.target.value
-                            )
+                            handleChange("description", e.target.value)
                           }
                         />
                       </div>
                     </div>
-                  ))}
-                </div>
-              </section>
+                  </section>
 
-              <div className="pt-2">
+                  <section>
+                    <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wide">
+                      Timing & Location
+                    </h2>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label className={labelClass}>Start Time (ISO)</label>
+                        <input
+                          className={inputClass}
+                          value={form.startTime}
+                          onChange={(e) =>
+                            handleChange("startTime", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>End Time (ISO)</label>
+                        <input
+                          className={inputClass}
+                          value={form.endTime}
+                          onChange={(e) =>
+                            handleChange("endTime", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Location</label>
+                        <input
+                          className={inputClass}
+                          value={form.location}
+                          onChange={(e) =>
+                            handleChange("location", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Venue</label>
+                        <input
+                          className={inputClass}
+                          value={form.venue}
+                          onChange={(e) =>
+                            handleChange("venue", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>
+                          Registration URL
+                        </label>
+                        <input
+                          className={inputClass}
+                          value={form.registrationUrl}
+                          onChange={(e) =>
+                            handleChange("registrationUrl", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>
+                          Tags (comma separated)
+                        </label>
+                        <input
+                          className={inputClass}
+                          value={form.tags}
+                          onChange={(e) =>
+                            handleChange("tags", e.target.value)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </section>
+                </>
+              )}
+
+              {/* Step 2: Host */}
+              {currentStep === 2 && (
+                <section>
+                  <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wide">
+                    Host
+                  </h2>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className={labelClass}>Name</label>
+                      <input
+                        className={inputClass}
+                        value={form.hostName}
+                        onChange={(e) =>
+                          setForm((prev) => ({
+                            ...prev,
+                            hostName: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Title</label>
+                      <input
+                        className={inputClass}
+                        value={form.hostTitle}
+                        onChange={(e) =>
+                          setForm((prev) => ({
+                            ...prev,
+                            hostTitle: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Avatar</label>
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-full overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                          {form.hostAvatar ? (
+                            <img
+                              src={form.hostAvatar}
+                              alt="Host avatar"
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <span className="text-[10px] text-gray-500 dark:text-gray-400 px-2 text-center">
+                              No avatar
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex-1 space-y-2">
+                          <label className="inline-flex items-center justify-center px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 text-xs font-semibold text-gray-700 dark:text-gray-200 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                            <span>Upload image</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files
+                                  ? e.target.files[0]
+                                  : null;
+                                if (!file) return;
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                  const result = reader.result;
+                                  if (typeof result === "string") {
+                                    setForm((prev) => ({
+                                      ...prev,
+                                      hostAvatar: result,
+                                    }));
+                                  }
+                                };
+                                reader.readAsDataURL(file);
+                              }}
+                            />
+                          </label>
+                          <input
+                            className={inputClass}
+                            placeholder="Or paste avatar URL"
+                            value={form.hostAvatar}
+                            onChange={(e) =>
+                              setForm((prev) => ({
+                                ...prev,
+                                hostAvatar: e.target.value,
+                              }))
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <label className={labelClass}>LinkedIn</label>
+                      <input
+                        className={inputClass}
+                        value={form.hostLinkedin}
+                        onChange={(e) =>
+                          setForm((prev) => ({
+                            ...prev,
+                            hostLinkedin: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className={labelClass}>Bio</label>
+                      <textarea
+                        className={`${inputClass} min-h-[70px]`}
+                        value={form.hostBio}
+                        onChange={(e) =>
+                          setForm((prev) => ({
+                            ...prev,
+                            hostBio: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                  </div>
+                </section>
+              )}
+
+              {/* Step 3: Speakers */}
+              {currentStep === 3 && (
+                <section>
+                  <div className="flex items-center justify-between mb-2">
+                    <h2 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wide">
+                      Speakers
+                    </h2>
+                    <button
+                      type="button"
+                      onClick={addSpeaker}
+                      className="text-xs font-semibold text-[#4285F4] hover:underline"
+                    >
+                      + Add speaker
+                    </button>
+                  </div>
+                  <div className="space-y-4">
+                    {form.speakers.map((speaker, index) => (
+                      <div
+                        key={index}
+                        className="grid md:grid-cols-2 gap-4 border border-gray-200 dark:border-gray-800 rounded-xl p-4"
+                      >
+                        <div>
+                          <label className={labelClass}>Name</label>
+                          <input
+                            className={inputClass}
+                            value={speaker.name}
+                            onChange={(e) =>
+                              handleSpeakerChange(
+                                index,
+                                "name",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
+                        <div>
+                          <label className={labelClass}>Title</label>
+                          <input
+                            className={inputClass}
+                            value={speaker.title}
+                            onChange={(e) =>
+                              handleSpeakerChange(
+                                index,
+                                "title",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
+                        <div>
+                          <label className={labelClass}>Avatar</label>
+                          <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-full overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                              {speaker.avatar ? (
+                                <img
+                                  src={speaker.avatar}
+                                  alt="Speaker avatar"
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <span className="text-[10px] text-gray-500 dark:text-gray-400 px-2 text-center">
+                                  No avatar
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex-1 space-y-2">
+                              <label className="inline-flex items-center justify-center px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 text-xs font-semibold text-gray-700 dark:text-gray-200 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                <span>Upload image</span>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files
+                                      ? e.target.files[0]
+                                      : null;
+                                    if (!file) return;
+                                    const reader = new FileReader();
+                                    reader.onloadend = () => {
+                                      const result = reader.result;
+                                      if (typeof result === "string") {
+                                        handleSpeakerChange(
+                                          index,
+                                          "avatar",
+                                          result
+                                        );
+                                      }
+                                    };
+                                    reader.readAsDataURL(file);
+                                  }}
+                                />
+                              </label>
+                              <input
+                                className={inputClass}
+                                placeholder="Or paste avatar URL"
+                                value={speaker.avatar}
+                                onChange={(e) =>
+                                  handleSpeakerChange(
+                                    index,
+                                    "avatar",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <label className={labelClass}>LinkedIn</label>
+                          <input
+                            className={inputClass}
+                            value={speaker.linkedin}
+                            onChange={(e) =>
+                              handleSpeakerChange(
+                                index,
+                                "linkedin",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className={labelClass}>Bio</label>
+                          <textarea
+                            className={`${inputClass} min-h-[60px]`}
+                            value={speaker.bio}
+                            onChange={(e) =>
+                              handleSpeakerChange(
+                                index,
+                                "bio",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Step 4: Agenda & Media */}
+              {currentStep === 4 && (
+                <>
+                  <section>
+                    <div className="flex items-center justify-between mb-2">
+                      <h2 className="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wide">
+                        Agenda
+                      </h2>
+                      <button
+                        type="button"
+                        onClick={addAgendaItem}
+                        className="text-xs font-semibold text-[#4285F4] hover:underline"
+                      >
+                        + Add agenda item
+                      </button>
+                    </div>
+                    <div className="space-y-4">
+                      {form.agenda.map((item, index) => (
+                        <div
+                          key={index}
+                          className="grid md:grid-cols-2 gap-4 border border-gray-200 dark:border-gray-800 rounded-xl p-4"
+                        >
+                          <div>
+                            <label className={labelClass}>Time</label>
+                            <input
+                              className={inputClass}
+                              value={item.time}
+                              onChange={(e) =>
+                                handleAgendaChange(
+                                  index,
+                                  "time",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </div>
+                          <div>
+                            <label className={labelClass}>Title</label>
+                            <input
+                              className={inputClass}
+                              value={item.title}
+                              onChange={(e) =>
+                                handleAgendaChange(
+                                  index,
+                                  "title",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <label className={labelClass}>Description</label>
+                            <textarea
+                              className={`${inputClass} min-h-[60px]`}
+                              value={item.description}
+                              onChange={(e) =>
+                                handleAgendaChange(
+                                  index,
+                                  "description",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section>
+                    <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wide">
+                      Event Images
+                    </h2>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label className={labelClass}>Banner Image</label>
+                        <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-2xl px-4 py-6 cursor-pointer hover:border-[#4285F4] hover:bg-gray-50/70 dark:hover:bg-gray-900/60 transition-colors">
+                          {bannerPreview || form.bannerUrl ? (
+                            <img
+                              src={bannerPreview || form.bannerUrl}
+                              alt="Banner preview"
+                              className="w-full h-32 object-cover rounded-xl"
+                            />
+                          ) : (
+                            <>
+                              <svg
+                                className="w-6 h-6 text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586A2 2 0 0119 12h0a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-3"
+                                />
+                              </svg>
+                              <span className="text-xs font-medium text-gray-700 dark:text-gray-200">
+                                Click to upload banner image
+                              </span>
+                              <span className="text-[11px] text-gray-500 dark:text-gray-400">
+                                PNG, JPG up to ~5MB
+                              </span>
+                            </>
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files
+                                ? e.target.files[0]
+                                : null;
+                              setBannerFile(file);
+                              if (file) {
+                                setBannerPreview(
+                                  URL.createObjectURL(file)
+                                );
+                              } else {
+                                setBannerPreview(
+                                  event?.bannerUrl || null
+                                );
+                              }
+                            }}
+                          />
+                        </label>
+                        <p className="mt-2 text-[11px] text-gray-500 dark:text-gray-400">
+                          Current URL:{" "}
+                          <span className="break-all">
+                            {form.bannerUrl || "Not set"}
+                          </span>
+                        </p>
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>Thumbnail Image</label>
+                        <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-2xl px-4 py-6 cursor-pointer hover:border-[#4285F4] hover:bg-gray-50/70 dark:hover:bg-gray-900/60 transition-colors">
+                          {thumbnailPreview || form.thumbnailUrl ? (
+                            <img
+                              src={thumbnailPreview || form.thumbnailUrl}
+                              alt="Thumbnail preview"
+                              className="w-full h-32 object-cover rounded-xl"
+                            />
+                          ) : (
+                            <>
+                              <svg
+                                className="w-6 h-6 text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586A2 2 0 0119 12h0a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-3"
+                                />
+                              </svg>
+                              <span className="text-xs font-medium text-gray-700 dark:text-gray-200">
+                                Click to upload thumbnail
+                              </span>
+                              <span className="text-[11px] text-gray-500 dark:text-gray-400">
+                                PNG, JPG up to ~5MB
+                              </span>
+                            </>
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files
+                                ? e.target.files[0]
+                                : null;
+                              setThumbnailFile(file);
+                              if (file) {
+                                setThumbnailPreview(
+                                  URL.createObjectURL(file)
+                                );
+                              } else {
+                                setThumbnailPreview(
+                                  event?.thumbnailUrl || null
+                                );
+                              }
+                            }}
+                          />
+                        </label>
+                        <p className="mt-2 text-[11px] text-gray-500 dark:text-gray-400">
+                          Current URL:{" "}
+                          <span className="break-all">
+                            {form.thumbnailUrl || "Not set"}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </section>
+                </>
+              )}
+
+              {/* Step navigation */}
+              <div className="pt-4 flex items-center justify-between">
                 <button
-                  type="submit"
-                  disabled={saving}
-                  className="px-8 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-[#4285f4] to-[#3367d6] shadow-md hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                  type="button"
+                  onClick={() =>
+                    setCurrentStep((prev) => Math.max(1, prev - 1))
+                  }
+                  disabled={currentStep === 1}
+                  className="px-4 py-2 rounded-full text-sm font-semibold border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 bg-white/80 dark:bg-gray-900/80 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
-                  {saving ? "Saving…" : "Save Changes"}
+                  Previous
                 </button>
+
+                {currentStep < 4 ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCurrentStep((prev) => Math.min(4, prev + 1))
+                    }
+                    className="px-6 py-2 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-[#4285f4] to-[#3367d6] shadow-md hover:opacity-90 transition-opacity"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={saving}
+                    className="px-8 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-[#4285f4] to-[#3367d6] shadow-md hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {saving ? "Saving…" : "Save Changes"}
+                  </button>
+                )}
               </div>
             </motion.form>
           </>

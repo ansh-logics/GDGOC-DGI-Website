@@ -44,11 +44,12 @@ const navBtnClass =
 const Navbar = () => {
   const { theme } = useTheme();
   const { user } = useAuth();
-  const isDark = theme === 'dark';
   const [showBubbleMenu, setShowBubbleMenu] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  // Avoid hydration mismatches by only using the resolved theme after mount
   useEffect(() => setMounted(true), []);
+  const isDark = mounted && theme === 'dark';
 
   return (
     <>
