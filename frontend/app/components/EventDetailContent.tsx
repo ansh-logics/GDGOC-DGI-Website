@@ -12,11 +12,24 @@ interface EventDetailContentProps {
 
 export default function EventDetailContent({ event }: EventDetailContentProps) {
   const [expandedAgendaItems, setExpandedAgendaItems] = useState<Set<number>>(new Set());
-  
-  const eventDate = `${event.date}-${event.month}-${event.year}`;
-  const time = `${event.start}-${event.end}`;
-  const formattedDate = eventDate.toString();
-  const formattedTime = time.toString();
+
+  const startDate = new Date(event.start);
+  const endDate = new Date(event.end);
+
+  let formattedDate = "TBA";
+  let formattedTime = "TBA";
+
+  if (!isNaN(startDate.getTime())) {
+    try {
+      formattedDate = format(startDate, "dd MMM, yyyy");
+      formattedTime = format(startDate, "HH:mm");
+      if (!isNaN(endDate.getTime())) {
+        formattedTime += ` - ${format(endDate, "HH:mm")}`;
+      }
+    } catch {
+      // fall back to defaults
+    }
+  }
 
   const toggleAgendaItem = (index: number) => {
     const newSet = new Set(expandedAgendaItems);
