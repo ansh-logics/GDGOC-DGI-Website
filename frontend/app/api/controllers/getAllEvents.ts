@@ -1,49 +1,39 @@
-import { Main, AllEvents } from "@/types/event";
+import { AllEvents } from "@/types/event";
 import { format } from "date-fns";
+import { getEventsApi, type BackendEvent } from "@/lib/api";
 
+export default async function getAllEvents(token?: string): Promise<AllEvents[]> {
+  try {
+    const { events } = await getEventsApi(token);
 
-export default async function getAllEvents() {
-    try {
-        const cache = await caches.open('my-cache');
-        const match = await cache.match('/event-data');
-
-        if (!match) {
-            throw new Error("No event data found in cache");
+    const allEvents: AllEvents[] = events.map((eve: BackendEvent) => {
+      let dateStr = "";
+      try {
+        const eventDate = new Date(eve.startTime);
+        if (!isNaN(eventDate.getTime())) {
+          dateStr = format(eventDate, "dd-MM-yyyy");
         }
+      } catch (e) {
+        console.warn(`Invalid start date for event ${eve._id}`, e);
+      }
 
-        const data = await match.json();
-        const raw: Main[] = data.data;
-        console.log(raw)
+      return {
+        id: eve._id,
+        name: eve.title,
+        slug: eve.slug,
+        desc: eve.summary || eve.description,
+        location: eve.location,
+        start: eve.startTime,
+        end: eve.endTime,
+        date: dateStr,
+        thumbnailurl: eve.thumbnailUrl || "",
+        commudleUrl: eve.registrationUrl || "#",
+      };
+    });
 
-        const allEvents: AllEvents[] = raw.map(eve => {
-            let dateStr = `${eve.date}-${eve.month}-${eve.year}`;
-            try {
-                const eventDate = new Date(eve.start);
-                if (!isNaN(eventDate.getTime())) {
-                    dateStr = format(eventDate, "dd-MM-yyyy");
-                }
-            } catch (e) {
-                console.warn(`Invalid start date for event ${eve.id}`, e);
-            }
-
-            return {
-                id: eve.id,
-                name: eve.title,
-                slug: eve.slug,
-                desc: eve.description,
-                location: eve.location,
-                start: eve.start,
-                end: eve.end,
-                date: dateStr,
-                thumbnailurl: eve.thumbnailUrl,
-                commudleUrl: eve.commudleUrl || "#",
-            };
-        });
-
-        return allEvents;
-
-    } catch (error) {
-        console.error("Error fetching events:", error);
-        throw error;
-    }
+    return allEvents;
+  } catch (error) {
+    console.error("Error fetching events from backend:", error);
+    throw error;
+  }
 }

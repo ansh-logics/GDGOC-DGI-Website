@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { connectdb } from "./connectDb.js";
 import authRouter from "./routes/auth.routes.js";
+import eventRouter from "./routes/event.routes.js"
 
 dotenv.config();
 
@@ -13,9 +14,7 @@ if (!process.env.JWT_SECRET) {
 
 try {
     let message = await connectdb();
-    console.log(message);
 } catch (error) {
-    console.log(error.message);
 }
 
 const app = express();
@@ -25,7 +24,8 @@ const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
     "https://www.gdgdronacharya.site",
     "https://gdgdronacharya.site",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://localhost:3001"
 ];
 
 app.use(cors({
@@ -35,13 +35,16 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.use(express.json());
+// Increase JSON/body size limit to allow rich event payloads (avatars etc.)
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 app.get("/test", (req, res) => {
     res.send("Backend running ✅");
 });
 
-app.use("/api/v1", authRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/event", eventRouter);
 
 app.use((err, req, res, next) => {
     console.error(err);
@@ -51,6 +54,4 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log("Server running on PORT =", PORT);
-});
+app.listen(PORT, () => {});

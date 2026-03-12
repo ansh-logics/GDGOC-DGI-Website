@@ -15,8 +15,7 @@ export default function EventDetailPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Combine all events and find the one matching the slug
-    async function run(){  
+    async function run() {
       const foundEvent = await getSpecificEvent(slug);
       setEvent(foundEvent || null);
       setLoading(false);
