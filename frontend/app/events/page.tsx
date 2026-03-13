@@ -13,10 +13,7 @@ import { isAdminEmail } from "@/lib/utils";
 
 export default function EventsPage() {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
-
-  const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
-  const [pastEvents, setPastEvents] = useState<any[]>([]);
+  const [allEvents, setAllEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   // FILTER STATES
@@ -26,33 +23,41 @@ export default function EventsPage() {
 
   // Extracted filter lists
   const years = useMemo(
-    () => [...new Set(pastEvents.map((e) => e.year))].sort((a, b) => b - a),
-    [pastEvents]
+    () => [...new Set(allEvents.map((e) => e.year))].sort((a, b) => b - a),
+    [allEvents]
   );
 
   const months = useMemo(
-    () => [...new Set([...upcomingEvents, ...pastEvents].map((e) => e.month))].sort(),
-    [upcomingEvents, pastEvents]
+    () => [...new Set(allEvents.map((e) => e.month))].sort(),
+    [allEvents]
   );
 
   const slugs = useMemo(
-    () => [...new Set([...upcomingEvents, ...pastEvents].map((e) => e.slug))],
-    [upcomingEvents, pastEvents]
+    () => [...new Set(allEvents.map((e) => e.slug))],
+    [allEvents]
   );
 
   // Convert AllEvents → EventCardClassy format
   function convertEvent(e: AllEvents, status: string) {
     let [d, m, y] = e.date.split("-");
 
-    if (d.length === 1) d = "0" + d;
-    if (m.length === 1) m = "0" + m;
+    const pad = (n: string) => n.padStart(2, "0");
+    d = pad(d);
+    m = pad(m);
+
+    const startISO = e.start.includes("T")
+      ? e.start
+      : `${y}-${m}-${d}T${e.start}`;
+    const endISO = e.end.includes("T")
+      ? e.end
+      : `${y}-${m}-${d}T${e.end}`;
 
     return {
       id: e.id,
       title: e.name,
       summary: e.desc,
-      start: `${y}-${m}-${d}T${e.start}`,
-      end: `${y}-${m}-${d}T${e.end}`,
+      start: startISO,
+      end: endISO,
       location: e.location,
       thumbnailUrl: e.thumbnailurl,
       commudleUrl: e.commudleUrl || "#",
@@ -64,25 +69,23 @@ export default function EventsPage() {
     };
   }
 
-  // Fetch & divide events
+  // Fetch & prepare events
   useEffect(() => {
     async function load() {
       const all = await getAllEvents();
       const today = new Date();
 
-      const upcoming: any[] = [];
-      const past: any[] = [];
+      const merged: any[] = [];
 
       all.forEach((e) => {
         const [d, m, y] = e.date.split("-");
         const eventDate = new Date(Number(y), Number(m) - 1, Number(d));
 
-        if (eventDate >= today) upcoming.push(convertEvent(e, "upcoming"));
-        else past.push(convertEvent(e, "past"));
+        const status = eventDate >= today ? "upcoming" : "past";
+        merged.push(convertEvent(e, status));
       });
 
-      setUpcomingEvents(upcoming);
-      setPastEvents(past);
+      setAllEvents(merged);
       setLoading(false);
     }
 
@@ -90,9 +93,7 @@ export default function EventsPage() {
   }, []);
 
   // FILTER LOGIC
-  const eventsToFilter = activeTab === "upcoming" ? upcomingEvents : pastEvents;
-
-  const displayedEvents = eventsToFilter.filter((e) => {
+  const displayedEvents = allEvents.filter((e) => {
     const yearMatch = selectedYear === "all" || e.year === selectedYear;
     const monthMatch = selectedMonth === "all" || e.month === selectedMonth;
     const slugMatch = selectedSlug === "all" || e.slug === selectedSlug;
@@ -121,15 +122,12 @@ export default function EventsPage() {
             All Events
           </div>
 
-          <h1 className="text-5xl font-black mb-6 text-gray-900 dark:text-white tracking-tight">
+          <h1 className="text-5xl font-black mb-4 text-gray-900 dark:text-white tracking-tight">
             GDG{" "}
             <span className="bg-gradient-to-r from-[#FBBC04] via-[#EA4335] to-[#4285F4] bg-clip-text text-transparent">
               Events
             </span>
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Join our workshops, study jams, and community events to level up your tech skills.
-          </p>
 
           {user && isAdminEmail(user.email) && (
             <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -149,63 +147,34 @@ export default function EventsPage() {
           )}
         </motion.div>
 
-        {/* TABS */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex bg-white dark:bg-gray-900 rounded-full p-1 border border-gray-200 dark:border-gray-800 shadow-sm">
-            {/* UPCOMING TAB */}
-            <button
-              onClick={() => setActiveTab("upcoming")}
-              className={`px-6 py-2.5 rounded-full font-semibold text-sm transition-all ${activeTab === "upcoming"
-                  ? "bg-gradient-to-r from-[#4285f4] to-[#3367d6] text-white shadow-md"
-                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                }`}
-            >
-              Upcoming ({upcomingEvents.length})
-            </button>
-
-            {/* PAST TAB */}
-            <button
-              onClick={() => setActiveTab("past")}
-              className={`px-6 py-2.5 rounded-full font-semibold text-sm transition-all ${activeTab === "past"
-                  ? "bg-gradient-to-r from-[#4285f4] to-[#3367d6] text-white shadow-md"
-                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                }`}
-            >
-              Past Events ({pastEvents.length})
-            </button>
-          </div>
-        </div>
-
         {/* FILTERS */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-wrap justify-center gap-4 mb-10"
         >
-          {/* YEAR FILTER (only for past) */}
-          {activeTab === "past" && (
-            <div className="relative">
-              <select
-                value={selectedYear}
-                onChange={(e) =>
-                  setSelectedYear(e.target.value === "all" ? "all" : Number(e.target.value))
-                }
-                className="appearance-none pl-5 pr-10 py-2.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full text-sm font-medium text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20 focus:border-[#4285F4] hover:border-gray-300 dark:hover:border-gray-700 transition-all cursor-pointer shadow-sm"
-              >
-                <option value="all">All Years</option>
-                {years.map((y) => (
-                  <option key={y} value={y}>
-                    {y}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
+          {/* YEAR FILTER */}
+          <div className="relative">
+            <select
+              value={selectedYear}
+              onChange={(e) =>
+                setSelectedYear(e.target.value === "all" ? "all" : Number(e.target.value))
+              }
+              className="appearance-none pl-5 pr-10 py-2.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full text-sm font-medium text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20 focus:border-[#4285F4] hover:border-gray-300 dark:hover:border-gray-700 transition-all cursor-pointer shadow-sm"
+            >
+              <option value="all">All Years</option>
+              {years.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
             </div>
-          )}
+          </div>
 
           {/* MONTH FILTER */}
           <div className="relative">
