@@ -51,6 +51,20 @@ const Navbar = () => {
   useEffect(() => setMounted(true), []);
   const isDark = mounted && theme === 'dark';
 
+  // For mobile, include Profile in the bubble nav when logged in
+  const mobileMenuItems = user
+    ? [
+        ...bubbleMenuItems,
+        {
+          label: 'Profile',
+          href: '/profile',
+          ariaLabel: 'Your profile',
+          rotation: 10,
+          hoverStyles: { bgColor: '#111827', textColor: '#ffffff' },
+        },
+      ]
+    : bubbleMenuItems;
+
   return (
     <>
       <Link href="/">
@@ -59,10 +73,9 @@ const Navbar = () => {
         </div>
       </Link>
 
+      {/* Desktop bubble nav (no Profile, leaves space for top-right buttons) */}
       <BubbleMenu
-        logo={
-          <div className="hidden" />
-        }
+        logo={<div className="hidden" />}
         items={bubbleMenuItems}
         menuBg={isDark ? '#1f2937' : '#ffffff'}
         menuContentColor={isDark ? '#ffffff' : '#111827'}
@@ -71,12 +84,28 @@ const Navbar = () => {
         animationDuration={0.5}
         staggerDelay={0.08}
         onMenuClick={(open) => setShowBubbleMenu(open)}
-        className={`top-6 left-auto justify-end ${mounted && !user ? 'right-60' : 'right-32'}`}
+        className={`top-6 left-auto justify-end hidden md:flex ${
+          mounted && !user ? 'right-60' : 'right-32'
+        }`}
+      />
+
+      {/* Mobile bubble nav (includes Profile when logged in) */}
+      <BubbleMenu
+        logo={<div className="hidden" />}
+        items={mobileMenuItems}
+        menuBg={isDark ? '#1f2937' : '#ffffff'}
+        menuContentColor={isDark ? '#ffffff' : '#111827'}
+        useFixedPosition={true}
+        animationEase="back.out(1.5)"
+        animationDuration={0.5}
+        staggerDelay={0.08}
+        onMenuClick={(open) => setShowBubbleMenu(open)}
+        className="top-6 left-auto right-[3rem] justify-end md:hidden"
       />
 
       <div className="fixed top-6 right-6 z-[150] flex items-center gap-2">
         {mounted && (
-          <>
+          <div className="hidden md:flex items-center gap-2">
             {user ? (
               <Link
                 href="/profile"
@@ -103,7 +132,7 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-          </>
+          </div>
         )}
         <AnimatedThemeToggler />
       </div>

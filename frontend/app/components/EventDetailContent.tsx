@@ -193,30 +193,19 @@ export default function EventDetailContent({ event }: EventDetailContentProps) {
                   {event.tags}
                 </span>
             </div>
-
-            {/* RSVP Button - Only for upcoming events */}
-            {event.status === 'upcoming' && (
-              <button
-                onClick={handleRSVP}
-                className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-[#4285f4] to-[#3367d6] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2"
-              >
-                RSVP on Commudle
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </button>
-            )}
           </div>
 
           {/* Host Info */}
           <div className="p-8 md:p-12 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-800">
             <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4">Hosted By</h3>
             <div className="flex items-center gap-4">
-              <img
-                src={event.host.avatar}
-                alt={event.host.name}
-                className="w-16 h-16 rounded-full shadow-lg"
-              />
+              <div className="w-16 h-16 rounded-full shadow-lg bg-white dark:bg-gray-900 flex items-center justify-center overflow-hidden">
+                <img
+                  src={event.host.avatar}
+                  alt={event.host.name}
+                  className="w-12 h-12 object-cover"
+                />
+              </div>
               <div className="flex-1">
                 <h4 className="text-xl font-bold text-gray-900 dark:text-white">{event.host.name}</h4>
                 <p className="text-gray-600 dark:text-gray-400">{event.host.role}</p>
@@ -258,6 +247,18 @@ export default function EventDetailContent({ event }: EventDetailContentProps) {
                 paragraph.trim() && <p key={idx} className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">{paragraph}</p>
               ))}
             </div>
+            {/* Register button just after About section */}
+            {event.commudleUrl && event.commudleUrl !== "#" && (
+              <button
+                onClick={handleRSVP}
+                className="mt-6 w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-[#4285f4] to-[#3367d6] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2"
+              >
+                Register here
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </button>
+            )}
           </div>
 
           {/* Speakers */}
@@ -268,11 +269,13 @@ export default function EventDetailContent({ event }: EventDetailContentProps) {
                 {event.speakers.map((speaker, idx) => (
                   <div key={idx} className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-sm">
                     <div className="flex items-start gap-4 mb-4">
-                      <img
-                        src={speaker.avatar}
-                        alt={speaker.name}
-                        className="w-16 h-16 rounded-full"
-                      />
+                      <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                        <img
+                          src={speaker.avatar}
+                          alt={speaker.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                       <div className="flex-1">
                         <h4 className="text-lg font-bold text-gray-900 dark:text-white">{speaker.name}</h4>
                         <p className="text-sm text-gray-600 dark:text-gray-400">{speaker.title}</p>
@@ -361,21 +364,6 @@ export default function EventDetailContent({ event }: EventDetailContentProps) {
 
 
         </motion.div>
-
-        {/* Floating RSVP Button (Mobile) - Only for upcoming events */}
-        {event.status === 'upcoming' && (
-          <div className="fixed bottom-6 left-6 right-6 z-50 md:hidden">
-            <button
-              onClick={handleRSVP}
-              className="w-full px-6 py-4 bg-gradient-to-r from-[#4285f4] to-[#3367d6] text-white font-bold text-lg rounded-full shadow-2xl hover:shadow-3xl transition-all duration-200 flex items-center justify-center gap-2"
-            >
-              RSVP on Commudle
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
