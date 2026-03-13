@@ -89,19 +89,6 @@ export default function EventCardClassy({ event, index = 0 }: EventCardClassyPro
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
-        {/* Status badge */}
-        <div className="absolute top-4 right-4">
-          {isLive ? (
-            <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-red-600 text-white backdrop-blur-sm shadow-lg animate-[pulse_2s_infinite]">
-              ● Live Now
-            </span>
-          ) : (
-            <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-white/95 text-gray-900 backdrop-blur-sm">
-              {event.status === 'upcoming' ? 'Upcoming' : 'Past Event'}
-            </span>
-          )}
-        </div>
-
         {/* Tags overlay */}
         <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
           {event.tags.slice(0, 2).map((tag, idx) => (

@@ -112,20 +112,6 @@ export default function EventDetailContent({ event }: EventDetailContentProps) {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
           
-          {/* Event Status Badge */}
-          <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
-            <span
-              className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold rounded-full backdrop-blur-sm ${
-                event.status === 'upcoming'
-                  ? 'bg-green-500/90 text-white'
-                  : event.status === 'ongoing'
-                  ? 'bg-blue-500/90 text-white'
-                  : 'bg-gray-500/90 text-white'
-              }`}
-            >
-              {event.status === 'upcoming' ? 'Upcoming Event' : event.status === 'ongoing' ? 'Live Now' : 'Past Event'}
-            </span>
-          </div>
         </div>
       </div>
 
