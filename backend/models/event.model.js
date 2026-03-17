@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 
 const eventSchema = new mongoose.Schema(
 {
@@ -118,7 +118,53 @@ eventSchema.index({title:"text", description:"text", tags:"text"},
       }
    }
 );
+const formSchema = new mongoose.Schema({
+   eventId:{
+      type:mongoose.Types.ObjectId,
+      ref:'Event'
+   }, 
+   questions:[
+      {
+         question:{
+            type:String,
+         },
+         type:{
+            type:String,
+            enum:["mcq", "text", "para", "file"],
+            default:"text"
+         },
+         options:{
+            type:[String]
+         },
+         multipleChoice:{
+            type:Boolean,
+            default:false
+         }
+      }
+   ],
+   registrationId:{
+      type:String,
+   }
+   
+});
+
+const registrationSchema = {
+   formId:{
+      type: mongoose.Types.ObjectId,
+      ref:'Form'
+   }, 
+   userId:{
+      type: mongoose.Types.ObjectId,
+      ref:'User'
+   },
+   answers:[
+      {type:String}
+   ]
+
+}
 
 const Event = mongoose.model("Event", eventSchema);
+const Form = mongoose.model("Form", formSchema);
+const Registration = mongoose.model("Regsitration", registrationSchema);
 
-export default Event;
+export default [Event, Form, Registration];
