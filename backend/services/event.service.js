@@ -143,10 +143,11 @@ export async function deleteEventService(eventId) {
     
 }
 //admin related actions
-export async function createRegistrationForm(data) {
+export async function createRegistrationFormService(data) {
     const {eventId, questions} = data;
     try{
         await Form.create({eventId, questions});
+        return true;
     }catch(err){
         throw new Error(err.message);
     }
@@ -154,7 +155,7 @@ export async function createRegistrationForm(data) {
 }
 
 //user related actions
-export async function getRegistrationFrom(eventSlug){
+export async function getRegistrationFromService(eventSlug){
     try{
         let event = await Event.findOne({slug:eventSlug});
         let eventId = event.id;
@@ -165,10 +166,10 @@ export async function getRegistrationFrom(eventSlug){
     }
 }
 
-export async function registerInEvent(data) {
+export async function registerInEventService(data) {
    const {formId, userId, answers} = data;
     try{
-        let result = await Registration.create({formId, userId, answers});
+        await Registration.create({formId, userId, answers});
         return true;
     }catch(err){
         throw new Error(err.message);

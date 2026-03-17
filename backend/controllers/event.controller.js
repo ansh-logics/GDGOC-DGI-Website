@@ -1,4 +1,4 @@
-import { addBannerService, addThumbnailService, createEvent, deleteEventService, getEventBySlugService, getEventsService, updateEventService  } from "../services/event.service.js";
+import { addBannerService, addThumbnailService, createEvent, createRegistrationFormService, deleteEventService, getEventBySlugService, getEventsService, getRegistrationFromService, registerInEventService, updateEventService  } from "../services/event.service.js";
 
 export async function createEventController(req, res){
     try{
@@ -96,4 +96,37 @@ export async function deleteEventController(req, res) {
     }catch(err){
         res.status(400).json({error:err.message});
     }
+}
+
+export async function createRegistrationFromController(req, res) {
+    try{
+        const data = req.body;
+        let createdRegistrationFrom = createRegistrationFormService(data);
+        if(createdRegistrationFrom){
+            res.status(200).json({success:"Registration from is created"});
+        }
+    }catch(err){
+        res.status(400).json({error:err.message});
+    }
+}
+
+export async function getRegistrationFromController(req, res) {
+    try{
+        let {eventSlug} = req.body;
+        let form = getRegistrationFromService(eventSlug);
+        res.status(200).json({form});
+    }catch(err){
+        res.status(500).json({error:err.message});
+    } 
+}
+
+export async function registerInEventController(req, res){
+    try{
+        let data = req.body;
+        let registeredInEvent = registerInEventService(data);
+        if (registeredInEvent) res.status(200).json({success:"Successfully Registered"});
+    }catch(err){
+        res.status(500).json({error:err.message})
+    }
+
 }
