@@ -1,4 +1,4 @@
-import Event from "../models/event.model.js";
+import {Event, Registration, Form} from "../models/event.model.js";
 
 async function checkEventOverlap(startTime, endTime, location, venue){
     const conflict = await Event.findOne({
@@ -141,4 +141,36 @@ export async function deleteEventService(eventId) {
         throw new Error(err.message);
     }
     
+}
+//admin related actions
+export async function createRegistrationForm(data) {
+    const {eventId, questions} = data;
+    try{
+        await Form.create({eventId, questions});
+    }catch(err){
+        throw new Error(err.message);
+    }
+    
+}
+
+//user related actions
+export async function getRegistrationFrom(eventSlug){
+    try{
+        let event = await Event.findOne({slug:eventSlug});
+        let eventId = event.id;
+        let registrationForm = await Form.findOne({eventId});
+        return registrationForm;
+    }catch(err){
+        throw new Error(err.message);
+    }
+}
+
+export async function registerInEvent(data) {
+   const {formId, userId, answers} = data;
+    try{
+        let result = await Registration.create({formId, userId, answers});
+        return true;
+    }catch(err){
+        throw new Error(err.message);
+    }
 }

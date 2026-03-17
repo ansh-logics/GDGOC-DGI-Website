@@ -100,7 +100,15 @@ const eventSchema = new mongoose.Schema(
          title:{ type:String },
          description:{ type:String }
       }
-   ]
+   ],
+   formId:{
+      type: mongoose.Types.ObjectId,
+      ref: 'Form'
+   },
+   registrationsId:{
+      type: mongoose.Types.ObjectId,
+      ref:'Registration'
+   }
 
 },
 {
@@ -141,11 +149,7 @@ const formSchema = new mongoose.Schema({
             default:false
          }
       }
-   ],
-   registrationId:{
-      type:String,
-   }
-   
+   ]
 });
 
 const registrationSchema = {
@@ -163,8 +167,6 @@ const registrationSchema = {
 
 }
 
-const Event = mongoose.model("Event", eventSchema);
-const Form = mongoose.model("Form", formSchema);
-const Registration = mongoose.model("Regsitration", registrationSchema);
-
-export default [Event, Form, Registration];
+export const Event = mongoose.model("Event", eventSchema);
+export const Form = mongoose.model("Form", formSchema);
+export const Registration = mongoose.model("Regsitration", registrationSchema);
