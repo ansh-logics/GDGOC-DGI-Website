@@ -156,22 +156,36 @@ export async function createRegistrationFormService(data) {
 
 //user related actions
 export async function getRegistrationFromService(eventSlug){
-    try{
-        let event = await Event.findOne({slug:eventSlug});
-        let eventId = event.id;
-        let registrationForm = await Form.findOne({eventId});
-        return registrationForm;
-    }catch(err){
-        throw new Error(err.message);
-    }
+    return Event.findOne({ slug: eventSlug })
+        .then((event) => {
+            if (!event) throw new Error("Event not found");
+            return Form.findOne({ eventId: event._id });
+        })
+        .catch((err) => {
+            throw new Error(err.message);
+        });
 }
 
 export async function registerInEventService(data) {
    const {formId, userId, answers} = data;
-    try{
-        await Registration.create({formId, userId, answers});
+    await Registration.create({formId, userId, answers}).then(()=>{
         return true;
-    }catch(err){
-        throw new Error(err.message);
-    }
+    }).catch((err)=>{
+        return false;
+    });
+}
+
+export async function deleteRegistrationFromService(slug) {
+    return Event.findOne({ slug })
+        .then((event) => {
+            if (!event) throw new Error("Event not found");
+
+            return Form.findOneAndDelete({ eventId: event._id });
+        })
+        .then((deletedForm) => {
+            return !!deletedForm; // true if deleted, false if not found
+        })
+        .catch((err) => {
+            throw new Error(err.message);
+        });
 }

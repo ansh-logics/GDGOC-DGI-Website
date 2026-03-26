@@ -98,7 +98,7 @@ export async function deleteEventController(req, res) {
     }
 }
 
-export async function createRegistrationFromController(req, res) {
+export async function createRegistrationFormController(req, res) {
     try{
         const data = req.body;
         let createdRegistrationFrom = createRegistrationFormService(data);
@@ -110,10 +110,11 @@ export async function createRegistrationFromController(req, res) {
     }
 }
 
-export async function getRegistrationFromController(req, res) {
+export async function getRegistrationFormController(req, res) {
     try{
-        let {eventSlug} = req.body;
-        let form = getRegistrationFromService(eventSlug);
+        const {slug}= req.params;
+        console.log(slug)
+        let form = await getRegistrationFromService(slug);
         res.status(200).json({form});
     }catch(err){
         res.status(500).json({error:err.message});
@@ -129,4 +130,9 @@ export async function registerInEventController(req, res){
         res.status(500).json({error:err.message})
     }
 
+}
+export async function deleteRegistrationFormController(req, res) {
+    let {slug} = req.params;
+
+    
 }
