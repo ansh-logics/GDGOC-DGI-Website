@@ -1,70 +1,184 @@
 # GDG on Campus DGI Website
 
-The official website for **Google Developer Groups (GDG) on Campus at Dronacharya Group of Institutions (DGI)**. This platform serves as a hub for our community events, team information, and resources for student developers.
+Official website for Google Developer Groups on Campus at Dronacharya Group of Institutions. The repository contains the public website, event flows, authentication, and the admin event-management experience.
 
-Built with modern web technologies to provide a fast, responsive, and accessible experience.
+## Overview
 
-## 🚀 Tech Stack
+- `frontend/`: Next.js 16 app with TypeScript, Tailwind CSS, animations, and tests.
+- `backend/`: Express API for auth and event management.
+- `docker-compose.yml`: Production compose used by deployment.
+- `docker-compose.dev.yml`: Local development stack for frontend and backend.
 
-- **Framework**: [Next.js](https://nextjs.org/) (React)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Icons**: [Lucide React](https://lucide.dev/) & [React Icons](https://react-icons.github.io/react-icons/)
-- **Language**: TypeScript
+## Tech Stack
 
-## 🛠️ Getting Started
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Express 5
+- MongoDB
+- Docker and Docker Compose
 
-Follow these steps to set up the project locally on your machine.
+## Repository Structure
 
-### Prerequisites
+```text
+.
+├── backend/               # Express API
+├── frontend/              # Next.js application
+├── .github/               # CI/CD workflows and templates
+├── docker-compose.yml     # Production deployment compose
+├── docker-compose.dev.yml # Local development compose
+└── Dockerfile.dev         # Optional combined local dev container
+```
 
-Ensure you have the following installed:
-- [Node.js](https://nodejs.org/) (v18 or higher recommended)
-- npm, yarn, or bun
+## Prerequisites
 
-### Installation
+- Node.js 20+
+- npm 10+
+- Docker Desktop (optional, for containerized setup)
+- Access to the hosted MongoDB database
+- Cloudinary credentials for image uploads
 
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/ansh-logics/GDGOC-DGI-Website.git
-    cd GDGOC-DGI-Website/frontend
-    ```
+## Environment Variables
 
-2.  **Install dependencies**:
-    ```bash
-    npm install
-    # or
-    yarn install
-    ```
+Create the environment files from the provided examples:
 
-3.  **Run the development server**:
-    ```bash
-    npm run dev
-    # or
-    yarn dev
-    ```
+```bash
+cp .env.example .env
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
 
-4.  **Open locally**:
-    Visit [http://localhost:3000](http://localhost:3000) in your browser to see the application running.
+Important variables:
 
-## 🤝 Contributing
+- `backend/.env`
+  - `MONGO_CONNECTION`
+  - `JWT_SECRET`
+  - `PORT`
+  - `CLOUD_NAME`
+  - `API_KEY`
+  - `API_SECRET`
+- `frontend/.env`
+  - `NEXT_PUBLIC_API_URL`
+  - `NEXT_PUBLIC_SITE_URL`
+- root `.env`
+  - `BACKEND_PORT`
+  - `FRONTEND_PORT`
 
-We welcome contributions from the community! Whether it's fixing bugs, improving documentation, or proposing new features, your help is appreciated.
+## Local Development
 
-1.  **Fork** the repository.
-2.  Create a new **branch** for your feature or fix (`git checkout -b feature/amazing-feature`).
-3.  **Commit** your changes (`git commit -m 'Add some amazing feature'`).
-4.  **Push** to the branch (`git push origin feature/amazing-feature`).
-5.  Open a **Pull Request**.
+### Option 1: Run without Docker
 
-Please ensure your code follows the existing style and conventions.
+1. Install backend dependencies:
 
-## 📄 License
+```bash
+cd backend
+npm install
+```
 
-This project is open source and available under the [MIT License](LICENSE).
+2. Install frontend dependencies:
 
-## 📞 Contact
+```bash
+cd ../frontend
+npm install
+```
 
-- **Main Website**: [Coming Soon]
-- **Community Page**: [GDG on Campus DGI](https://gdg.community.dev/gdg-on-campus-dronacharya-group-of-institutions-greater-noida-india/)
-- **GitHub**: [ansh-logics/GDGOC-DGI-Website](https://github.com/ansh-logics/GDGOC-DGI-Website)
+3. Start the backend:
+
+```bash
+cd backend
+npm run dev
+```
+
+4. Start the frontend in another terminal:
+
+```bash
+cd frontend
+npm run dev
+```
+
+5. Open the app:
+
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Backend health endpoint: [http://localhost:4000/test](http://localhost:4000/test)
+
+### Option 2: Run with Docker Compose
+
+1. Ensure the three env files exist:
+
+```bash
+cp .env.example .env
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
+
+2. Start the local development stack:
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+3. Open the app:
+
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Backend: [http://localhost:4000/test](http://localhost:4000/test)
+
+To stop the stack:
+
+```bash
+docker compose -f docker-compose.dev.yml down
+```
+
+## Available Scripts
+
+### Frontend
+
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+npm run test
+```
+
+### Backend
+
+```bash
+npm run dev
+```
+
+## Testing
+
+Frontend tests are configured with Jest:
+
+```bash
+cd frontend
+npm test
+```
+
+## Deployment Notes
+
+- `backend/Dockerfile` builds the production API image.
+- `frontend/Dockerfile` builds the production Next.js image.
+- `docker-compose.yml` remains the production compose file used by the current deploy workflow.
+- `docker-compose.dev.yml` is for local development only and assumes MongoDB is hosted externally.
+- Existing GitHub Actions in `.github/workflows/` can be extended to build and deploy the full stack.
+
+## Contributing
+
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+
+For community expectations, see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+## Security
+
+If you discover a security issue, please follow [SECURITY.md](SECURITY.md).
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Community
+
+- GDG Community page: [GDG on Campus Dronacharya Group of Institutions](https://gdg.community.dev/gdg-on-campus-dronacharya-group-of-institutions-greater-noida-india/)
+- Repository: [ansh-logics/GDGOC-DGI-Website](https://github.com/ansh-logics/GDGOC-DGI-Website)

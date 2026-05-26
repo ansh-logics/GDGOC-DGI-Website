@@ -1,0 +1,17 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+
+backend/.env
+frontend/.env
+
+backend/node_modules
+frontend/node_modules
+
+frontend/.next
+frontend/out
+frontend/coverage
+
+dist
+build
